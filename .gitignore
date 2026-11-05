@@ -1,4 +1,5 @@
 # Personal data: claims, exported PDFs and backups. Never commit.
-source/
+source/*
+!source/.gitkeep
 *-evidence.pdf
 *-backup-*.json
