@@ -1,0 +1,4 @@
+# Personal data: claims, exported PDFs and backups. Never commit.
+source/
+*-evidence.pdf
+*-backup-*.json
