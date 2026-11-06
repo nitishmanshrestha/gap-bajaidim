@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GAP Bajaidim | ग्याप बजाइदिम</title>
+    <title>GAP Handim | ग्याप हान्दिम</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -404,19 +404,74 @@
         margin-bottom: var(--space-4);
       }
 
-      .form-group-title {
-        margin: var(--space-5) 0 var(--space-4);
-        padding-top: var(--space-4);
-        border-top: 1px solid var(--border);
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text-muted);
+      .form-section {
+        margin-top: var(--space-4);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--surface-alt);
       }
 
-      .form-group-title:first-of-type {
-        margin-top: 0;
-        padding-top: 0;
-        border-top: 0;
+      .form-section-title {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-3) var(--space-4);
+        border-radius: var(--radius-md);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text);
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+      }
+
+      .form-section-title::-webkit-details-marker {
+        display: none;
+      }
+
+      .form-section-title::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(-45deg);
+        transition: transform 0.15s ease;
+      }
+
+      .form-section[open] > .form-section-title::before {
+        transform: rotate(45deg);
+      }
+
+      .form-section-title::after {
+        content: "Show";
+        margin-left: auto;
+        font-size: 13px;
+        color: var(--primary);
+      }
+
+      .form-section[open] > .form-section-title::after {
+        content: "Hide";
+      }
+
+      .form-section-title:hover {
+        color: var(--primary-hover);
+      }
+
+      .form-section-title:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px var(--primary-soft);
+      }
+
+      .form-section-body {
+        padding: 0 var(--space-4) var(--space-4);
+      }
+
+      .form-section input[type="text"],
+      .form-section textarea,
+      .form-section select,
+      .form-section .rte-editor {
+        background: var(--surface);
       }
 
       .label {
@@ -454,6 +509,10 @@
       textarea {
         min-height: 88px;
         resize: vertical;
+      }
+
+      #draft {
+        min-height: 260px;
       }
 
       input:focus-visible,
@@ -944,7 +1003,7 @@
       }
 
       .rte-btn:hover {
-        background: var(--primary-soft);
+        border-color: #cdbd9c;
       }
 
       .rte-editor {
@@ -1196,73 +1255,6 @@
         margin: 0;
       }
 
-      .summary-view {
-        display: grid;
-        gap: var(--space-4);
-      }
-
-      .summary-head {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: var(--space-3);
-      }
-
-      .summary-name {
-        font-weight: 600;
-        margin: 0;
-      }
-
-      .summary-item {
-        display: grid;
-        grid-template-columns: 48px minmax(0, 1fr);
-        gap: var(--space-3);
-        padding: var(--space-4) 0;
-        border-top: 1px solid var(--border);
-        break-inside: avoid;
-      }
-
-      .summary-num {
-        margin: 0;
-        font-family: var(--serif);
-        font-size: 28px;
-        color: var(--primary);
-      }
-
-      .summary-item h3 {
-        margin: 0 0 var(--space-2);
-        font-family: var(--serif);
-        font-size: 18px;
-        font-weight: 500;
-      }
-
-      .summary-item .impact-list dd {
-        white-space: pre-line;
-      }
-
-      @media print {
-        body * {
-          visibility: hidden;
-        }
-
-        #summaryView,
-        #summaryView * {
-          visibility: visible;
-        }
-
-        #summaryView {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-        }
-
-        #printSummaryBtn {
-          display: none !important;
-        }
-      }
-
       .chart-box {
         margin: var(--space-3) 0 0;
         padding: var(--space-3);
@@ -1408,23 +1400,6 @@
         font-weight: 600;
       }
 
-      .pack-tag {
-        background: var(--primary-soft);
-        border-color: var(--primary);
-        color: var(--primary-hover);
-      }
-
-      .ai-tag {
-        margin-right: var(--space-1);
-        padding: 0 var(--space-2);
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        vertical-align: middle;
-        background: var(--primary-soft);
-        border-color: var(--primary);
-        color: var(--primary-hover);
-      }
-
       .level-bar {
         display: flex;
         align-items: center;
@@ -1464,11 +1439,6 @@
         margin: 0 0 8px;
         font-size: 48px;
         line-height: 1.15;
-      }
-
-      .h1-deva {
-        font: inherit;
-        color: inherit;
       }
 
       .app-title p {
@@ -1716,18 +1686,15 @@
       <header class="app-header">
         <div class="app-top">
           <div class="app-title">
-            <h1>
-              GAP Bajaidim /
-              <span class="h1-deva" lang="ne">ग्याप बजाइदिम</span>
-            </h1>
+            <h1>GAP Handim <span lang="ne">| ग्याप हान्दिम</span></h1>
             <p>
               A year-round workspace for us to organize and showcase their
               achievements for the GAP interview. Each claim tells its story at
               a glance, naming the competencies it touches, with screenshots,
               links and metrics for the detailed artifact one click away in its
               utility belt. Tag every claim to the reasonable competencies it
-              proves, spot the gaps early, and export a polished PDF or evidence
-              pack.
+              proves, spot the gaps early, and export a polished PDF or Markdown
+              file.
               <br /><br />Built by a QA, for fellow QAs. <br />All the best!
             </p>
           </div>
@@ -1741,16 +1708,6 @@
               aria-selected="true"
             >
               Tagger
-            </button>
-            <button
-              type="button"
-              class="tab"
-              role="tab"
-              id="tabSummary"
-              data-view="summary"
-              aria-selected="false"
-            >
-              Interview summary
             </button>
             <button
               type="button"
@@ -1799,21 +1756,12 @@
             </span>
             <span class="data-status" id="dataStatus"
               >Enter the candidate name (project is optional) and pick the
-              target level, then click Start and choose the suggested file
-              (name-level.json, e.g. your-name-l3.json) in this folder. If it
-              exists it is loaded; if not it is created. If the browser asks to
-              replace it, choose Replace: existing data is kept.</span
+              target level. Create new file saves a new file (suggested name
+              name-level.json, e.g. your-name-l3.json). Open existing loads a
+              file you already have. If the browser asks to replace a file,
+              choose Replace: existing data is kept.</span
             >
             <span class="data-actions">
-              <button
-                type="button"
-                class="btn btn-ghost btn-small"
-                id="reloadBtn"
-                title="Re-read the data file after you edit it by hand"
-                hidden
-              >
-                Reload
-              </button>
               <button
                 type="button"
                 class="btn btn-ghost btn-small"
@@ -1830,7 +1778,7 @@
                 disabled
                 title="Enter the candidate name first"
               >
-                Start
+                Create new file
               </button>
               <button
                 type="button"
@@ -1849,392 +1797,385 @@
         <section class="card" aria-labelledby="formTitle">
           <h2 class="card-title" id="formTitle">Add an artifact</h2>
 
-          <h3 class="form-group-title">The claim</h3>
-
-          <div class="field">
-            <label class="label" for="point">Artifact</label>
-            <p class="field-info">What you delivered, and where.</p>
-            <input
-              type="text"
-              id="point"
-              placeholder="The work you shipped, e.g. PR review bot for the automation repo"
-            />
-          </div>
-
-          <div class="field">
-            <label class="label" for="problem">Problem it solved</label>
-            <p class="field-info">
-              The situation before your work: the gap or risk, and who it hit.
-            </p>
-            <input
-              type="text"
-              id="problem"
-              placeholder="e.g. Automation PRs sat unreviewed for days"
-            />
-          </div>
-
-          <div class="field">
-            <span class="label">Description</span>
-            <p class="field-info">
-              Context, your contribution and the approach.
-            </p>
-            <div class="rte-toolbar" id="rteToolbar">
-              <button
-                type="button"
-                class="rte-btn"
-                data-cmd="bold"
-                title="Bold"
-                aria-label="Bold"
-              >
-                <b>B</b>
-              </button>
-              <button
-                type="button"
-                class="rte-btn"
-                data-cmd="italic"
-                title="Italic"
-                aria-label="Italic"
-              >
-                <i>I</i>
-              </button>
-              <button
-                type="button"
-                class="rte-btn"
-                data-cmd="insertUnorderedList"
-                title="Bullet list"
-                aria-label="Bullet list"
-              >
-                &bull; List
-              </button>
-              <button
-                type="button"
-                class="rte-btn"
-                data-cmd="link"
-                title="Insert link"
-                aria-label="Insert link"
-              >
-                Link
-              </button>
-            </div>
-            <div
-              class="rte-editor"
-              id="description"
-              contenteditable="true"
-              role="textbox"
-              aria-multiline="true"
-              data-placeholder="Context, what you did, and the measurable result"
-            ></div>
-            <div class="rte-link-row" id="rteLinkRow" hidden>
-              <input type="text" id="rteLinkInput" placeholder="https://" />
-              <button type="button" class="btn btn-small" id="rteLinkApply">
-                Apply
-              </button>
-              <button
-                type="button"
-                class="btn btn-ghost btn-small"
-                id="rteLinkCancel"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="label">
-              <span>Competencies touched</span>
-              <span class="label-actions">
-                <button
-                  type="button"
-                  class="btn btn-ghost btn-small"
-                  id="suggestBtn"
-                  title="Tick likely competencies from the words in your artifact, description and impact"
-                >
-                  <span
-                    class="comp-tag ai-tag"
-                    title="Generated by keyword matching. Check before you save."
-                    >AI</span
-                  >
-                  Suggest competency touched
-                </button>
-              </span>
-            </div>
-            <p class="field-info">Tick only what you can prove.</p>
-            <div id="competencyPicker"></div>
-            <p class="hint" id="suggestNote">
-              Select every competency this artifact touches.
-            </p>
-          </div>
-
-          <div class="field">
-            <label class="label" for="consequence"
-              >Consequence <span class="optional">(optional)</span></label
-            >
-            <p class="field-info">
-              The outcome it enabled, not the problem or the metric.
-            </p>
-            <input
-              type="text"
-              id="consequence"
-              placeholder="What it enabled, e.g. the team moved to twice-weekly releases"
-            />
-          </div>
-
-          <div class="field">
-            <div class="label">
-              <span>Claim story</span>
-              <span class="label-actions">
-                <button
-                  type="button"
-                  class="btn btn-ghost btn-small"
-                  id="resetDraftBtn"
-                >
-                  <span
-                    class="comp-tag ai-tag"
-                    title="Generated from the ticked competencies and your fields. Check before you save."
-                    >AI</span
-                  >
-                  Regenerate story
-                </button>
-              </span>
-            </div>
-            <p class="field-info">
-              Built from the ticked competencies: how each may be shown, and a
-              possible outcome.
-            </p>
-            <textarea
-              id="draft"
-              placeholder="Tick competencies to generate the story. You can edit it."
-            ></textarea>
-            <p class="hint" id="draftNote"></p>
-          </div>
-
-          <h3 class="form-group-title">Impact</h3>
-
-          <div class="field">
-            <span class="label"
-              >Before → After impact
-              <span class="optional">(optional)</span></span
-            >
-            <p class="field-info">
-              Same unit for both values, e.g. hours or count.
-            </p>
-            <div class="field-grid">
-              <div>
-                <label class="label" for="before">Baseline (before)</label>
-                <input type="text" id="before" placeholder="e.g. 26 hrs" />
+          <details class="form-section">
+            <summary class="form-section-title">The claim</summary>
+            <div class="form-section-body">
+              <div class="field">
+                <label class="label" for="point">Artifact</label>
+                <p class="field-info">What you delivered, and where.</p>
+                <input
+                  type="text"
+                  id="point"
+                  placeholder="The work you shipped, e.g. PR review bot for the automation repo"
+                />
               </div>
-              <div>
-                <label class="label" for="after">After</label>
-                <input type="text" id="after" placeholder="e.g. 6 hrs" />
-              </div>
-            </div>
-          </div>
 
-          <div class="field">
-            <label class="label" for="method"
-              >How it was measured
-              <span class="optional">(optional)</span></label
-            >
-            <p class="field-info">
-              Source, method and time window of the figures.
-            </p>
-            <input
-              type="text"
-              id="method"
-              placeholder="Source and method, e.g. Git median PR-to-merge, last 30 days"
-            />
-          </div>
+              <div class="field">
+                <label class="label" for="problem">Problem it solved</label>
+                <p class="field-info">
+                  The situation before your work: the gap or risk, and who it
+                  hit.
+                </p>
+                <input
+                  type="text"
+                  id="problem"
+                  placeholder="e.g. Automation PRs sat unreviewed for days"
+                />
+              </div>
 
-          <div class="field">
-            <p class="field-info">How reliable the figures and proof are.</p>
-            <div class="field-grid">
-              <div>
-                <label class="label" for="figureStatus">Figure status</label>
-                <select id="figureStatus">
-                  <option value="">Not set</option>
-                  <option value="measured">Measured</option>
-                  <option value="estimated">Estimated</option>
-                  <option value="no-baseline">No baseline</option>
-                </select>
-              </div>
-              <div>
-                <label class="label" for="proofStatus">Proof strength</label>
-                <select id="proofStatus">
-                  <option value="">Not set</option>
-                  <option value="verified">Verified</option>
-                  <option value="self-reported">Self-reported</option>
-                  <option value="needs-proof">Needs proof</option>
-                </select>
-              </div>
-              <div>
-                <span class="label" id="doneOnLabel">Completed</span>
-                <div class="mp" id="monthPicker">
-                  <input type="hidden" id="doneOn" />
+              <div class="field">
+                <span class="label">Description</span>
+                <p class="field-info">
+                  Context, your contribution and the approach.
+                </p>
+                <div class="rte-toolbar" id="rteToolbar">
                   <button
                     type="button"
-                    class="mp-trigger"
-                    id="mpTrigger"
-                    aria-haspopup="dialog"
-                    aria-expanded="false"
-                    aria-labelledby="doneOnLabel mpText"
+                    class="rte-btn"
+                    data-cmd="bold"
+                    title="Bold"
+                    aria-label="Bold"
                   >
-                    <span id="mpText" class="mp-placeholder">Select month</span>
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      aria-hidden="true"
-                    >
-                      <rect
-                        x="2"
-                        y="3"
-                        width="12"
-                        height="11"
-                        rx="2"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.4"
-                      />
-                      <path
-                        d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.4"
-                        stroke-linecap="round"
-                      />
-                    </svg>
+                    <b>B</b>
                   </button>
-                  <div
-                    class="mp-pop"
-                    id="mpPop"
-                    role="dialog"
-                    aria-label="Choose month"
-                    hidden
+                  <button
+                    type="button"
+                    class="rte-btn"
+                    data-cmd="italic"
+                    title="Italic"
+                    aria-label="Italic"
                   >
-                    <div class="mp-head">
+                    <i>I</i>
+                  </button>
+                  <button
+                    type="button"
+                    class="rte-btn"
+                    data-cmd="insertUnorderedList"
+                    title="Bullet list"
+                    aria-label="Bullet list"
+                  >
+                    &bull; List
+                  </button>
+                  <button
+                    type="button"
+                    class="rte-btn"
+                    data-cmd="link"
+                    title="Insert link"
+                    aria-label="Insert link"
+                  >
+                    Link
+                  </button>
+                </div>
+                <div
+                  class="rte-editor"
+                  id="description"
+                  contenteditable="true"
+                  role="textbox"
+                  aria-multiline="true"
+                  data-placeholder="Context, what you did, and the measurable result"
+                ></div>
+                <div class="rte-link-row" id="rteLinkRow" hidden>
+                  <input type="text" id="rteLinkInput" placeholder="https://" />
+                  <button type="button" class="btn btn-small" id="rteLinkApply">
+                    Apply
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-small"
+                    id="rteLinkCancel"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="label">
+                  <span>Competencies touched</span>
+                  <span class="label-actions">
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-small"
+                      id="suggestBtn"
+                      title="Tick likely competencies from the words in your artifact, description and impact"
+                    >
+                      Suggest competency touched
+                    </button>
+                  </span>
+                </div>
+                <p class="field-info">Tick only what you can prove.</p>
+                <div id="competencyPicker"></div>
+                <p class="hint" id="suggestNote">
+                  Select every competency this artifact touches.
+                </p>
+              </div>
+
+              <div class="field">
+                <label class="label" for="consequence"
+                  >Consequence <span class="optional">(optional)</span></label
+                >
+                <p class="field-info">
+                  The outcome it enabled, not the problem or the metric.
+                </p>
+                <input
+                  type="text"
+                  id="consequence"
+                  placeholder="What it enabled, e.g. the team moved to twice-weekly releases"
+                />
+              </div>
+
+              <div class="field">
+                <div class="label">
+                  <span
+                    >Claim story <span class="optional">(optional)</span></span
+                  >
+                </div>
+                <p class="field-info">
+                  Built from the artifact, problem, description, the scenario
+                  behind each ticked competency, and the outcome. Leave it blank
+                  to skip.
+                </p>
+                <textarea
+                  id="draft"
+                  placeholder="Example: Built a harnessed agentic test appetizer for Playwright that turns Jira tickets and test documents into UI automation tests. Test Automation: I refined the requirements, specified strong locators, and had the LLM create tests that the harness validates. Ownership: I drove the build to a working blueprint. Leadership &amp; Mentorship: I published it so other QAs can reuse it as boilerplate and start or extend agentic test automation of their own."
+                ></textarea>
+              </div>
+            </div>
+          </details>
+
+          <details class="form-section">
+            <summary class="form-section-title">Impact</summary>
+            <div class="form-section-body">
+              <div class="field">
+                <span class="label"
+                  >Before → After impact
+                  <span class="optional">(optional)</span></span
+                >
+                <p class="field-info">
+                  Same unit for both values, e.g. hours or count.
+                </p>
+                <div class="field-grid">
+                  <div>
+                    <label class="label" for="before">Baseline (before)</label>
+                    <input type="text" id="before" placeholder="e.g. 26 hrs" />
+                  </div>
+                  <div>
+                    <label class="label" for="after">After</label>
+                    <input type="text" id="after" placeholder="e.g. 6 hrs" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label" for="method"
+                  >How it was measured
+                  <span class="optional">(optional)</span></label
+                >
+                <p class="field-info">
+                  Source, method and time window of the figures.
+                </p>
+                <input
+                  type="text"
+                  id="method"
+                  placeholder="Source and method, e.g. Git median PR-to-merge, last 30 days"
+                />
+              </div>
+
+              <div class="field">
+                <p class="field-info">
+                  How reliable the figures and proof are.
+                </p>
+                <div class="field-grid">
+                  <div>
+                    <label class="label" for="figureStatus"
+                      >Figure status</label
+                    >
+                    <select id="figureStatus">
+                      <option value="">Not set</option>
+                      <option value="measured">Measured</option>
+                      <option value="estimated">Estimated</option>
+                      <option value="no-baseline">No baseline</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="label" for="proofStatus"
+                      >Proof strength</label
+                    >
+                    <select id="proofStatus">
+                      <option value="">Not set</option>
+                      <option value="verified">Verified</option>
+                      <option value="self-reported">Self-reported</option>
+                      <option value="needs-proof">Needs proof</option>
+                    </select>
+                  </div>
+                  <div>
+                    <span class="label" id="doneOnLabel">Completed</span>
+                    <div class="mp" id="monthPicker">
+                      <input type="hidden" id="doneOn" />
                       <button
                         type="button"
-                        class="mp-nav"
-                        id="mpPrev"
-                        aria-label="Previous year"
+                        class="mp-trigger"
+                        id="mpTrigger"
+                        aria-haspopup="dialog"
+                        aria-expanded="false"
+                        aria-labelledby="doneOnLabel mpText"
                       >
-                        &lsaquo;
+                        <span id="mpText" class="mp-placeholder"
+                          >Select month</span
+                        >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          aria-hidden="true"
+                        >
+                          <rect
+                            x="2"
+                            y="3"
+                            width="12"
+                            height="11"
+                            rx="2"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.4"
+                          />
+                          <path
+                            d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.4"
+                            stroke-linecap="round"
+                          />
+                        </svg>
                       </button>
-                      <strong id="mpYear"></strong>
-                      <button
-                        type="button"
-                        class="mp-nav"
-                        id="mpNext"
-                        aria-label="Next year"
+                      <div
+                        class="mp-pop"
+                        id="mpPop"
+                        role="dialog"
+                        aria-label="Choose month"
+                        hidden
                       >
-                        &rsaquo;
-                      </button>
-                    </div>
-                    <div class="mp-grid" id="mpGrid"></div>
-                    <div class="mp-foot">
-                      <button
-                        type="button"
-                        class="btn btn-ghost btn-small"
-                        id="mpClear"
-                      >
-                        Clear
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-ghost btn-small"
-                        id="mpToday"
-                      >
-                        This month
-                      </button>
+                        <div class="mp-head">
+                          <button
+                            type="button"
+                            class="mp-nav"
+                            id="mpPrev"
+                            aria-label="Previous year"
+                          >
+                            &lsaquo;
+                          </button>
+                          <strong id="mpYear"></strong>
+                          <button
+                            type="button"
+                            class="mp-nav"
+                            id="mpNext"
+                            aria-label="Next year"
+                          >
+                            &rsaquo;
+                          </button>
+                        </div>
+                        <div class="mp-grid" id="mpGrid"></div>
+                        <div class="mp-foot">
+                          <button
+                            type="button"
+                            class="btn btn-ghost btn-small"
+                            id="mpClear"
+                          >
+                            Clear
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-ghost btn-small"
+                            id="mpToday"
+                          >
+                            This month
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </details>
 
-          <label class="check-row">
-            <input type="checkbox" id="selectedForPack" />
-            <span>Include in evidence pack</span>
-            <span class="optional"
-              >(PDF and copy use ticked artifacts; all if none ticked)</span
-            >
-          </label>
+          <details class="form-section">
+            <summary class="form-section-title">Evidence</summary>
+            <div class="form-section-body">
+              <div class="field">
+                <label class="label" for="linkInput">Proof</label>
+                <p class="field-info">
+                  Verifiable links: repo, PR, ticket or dashboard.
+                </p>
+                <div class="input-row">
+                  <input
+                    type="text"
+                    id="linkInput"
+                    placeholder="Repo, PR, dashboard, Jira ticket or screenshot link"
+                  />
+                  <input
+                    type="text"
+                    id="linkLabel"
+                    class="link-label"
+                    placeholder="Link text (optional)"
+                    aria-label="Link text"
+                  />
+                  <button type="button" class="btn btn-ghost" id="addLinkBtn">
+                    Add
+                  </button>
+                </div>
+                <div class="link-list" id="linkList"></div>
+              </div>
 
-          <h3 class="form-group-title">Evidence</h3>
+              <div class="field">
+                <span class="label"
+                  >Images <span class="optional">(optional)</span></span
+                >
+                <p class="field-info">Screenshots that back the claim.</p>
+                <div class="input-row">
+                  <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    multiple
+                    hidden
+                  />
+                  <button type="button" class="btn btn-ghost" id="addImageBtn">
+                    Add images
+                  </button>
+                </div>
+                <p class="hint">
+                  Pick files or paste a screenshot. Images keep high resolution
+                  and are saved in the JSON file (max 6 per artifact). Click an
+                  image to magnify it.
+                </p>
+                <div class="image-grid" id="imageGrid"></div>
+              </div>
 
-          <div class="field">
-            <label class="label" for="linkInput">Proof</label>
-            <p class="field-info">
-              Verifiable links: repo, PR, ticket or dashboard.
-            </p>
-            <div class="input-row">
-              <input
-                type="text"
-                id="linkInput"
-                placeholder="Repo, PR, dashboard, Jira ticket or screenshot link"
-              />
-              <input
-                type="text"
-                id="linkLabel"
-                class="link-label"
-                placeholder="Link text (optional)"
-                aria-label="Link text"
-              />
-              <button type="button" class="btn btn-ghost" id="addLinkBtn">
-                Add
-              </button>
+              <div class="field">
+                <span class="label"
+                  >Flow <span class="optional">(optional)</span></span
+                >
+                <p class="field-info">
+                  Steps from start to finish. Shows as a flowchart on the card.
+                  Click a step there to read it in full.
+                </p>
+                <div class="input-row">
+                  <input
+                    type="text"
+                    id="flowInput"
+                    placeholder="Next step in the process"
+                    aria-label="Flow step"
+                  />
+                  <button type="button" class="btn btn-ghost" id="addFlowBtn">
+                    Add step
+                  </button>
+                </div>
+                <div class="link-list" id="flowList"></div>
+                <div id="flowPreview" hidden></div>
+              </div>
             </div>
-            <div class="link-list" id="linkList"></div>
-          </div>
-
-          <div class="field">
-            <span class="label"
-              >Images <span class="optional">(optional)</span></span
-            >
-            <p class="field-info">Screenshots that back the claim.</p>
-            <div class="input-row">
-              <input
-                type="file"
-                id="imageInput"
-                accept="image/*"
-                multiple
-                hidden
-              />
-              <button type="button" class="btn btn-ghost" id="addImageBtn">
-                Add images
-              </button>
-            </div>
-            <p class="hint">
-              Pick files or paste a screenshot. Images keep high resolution and
-              are saved in the JSON file (max 6 per artifact). Click an image to
-              magnify it.
-            </p>
-            <div class="image-grid" id="imageGrid"></div>
-          </div>
-
-          <div class="field">
-            <span class="label"
-              >Flow <span class="optional">(optional)</span></span
-            >
-            <p class="field-info">
-              Steps from start to finish. Shows as a flowchart on the card.
-              Click a step there to read it in full.
-            </p>
-            <div class="input-row">
-              <input
-                type="text"
-                id="flowInput"
-                placeholder="Next step in the process"
-                aria-label="Flow step"
-              />
-              <button type="button" class="btn btn-ghost" id="addFlowBtn">
-                Add step
-              </button>
-            </div>
-            <div class="link-list" id="flowList"></div>
-            <div id="flowPreview" hidden></div>
-          </div>
+          </details>
 
           <p class="error" id="formError" role="alert"></p>
 
@@ -2249,14 +2190,6 @@
               title="Copy this artifact as a block for the gap-artifact-polisher agent"
             >
               Copy for agent
-            </button>
-            <button
-              type="button"
-              class="btn btn-ghost"
-              id="draftBtn"
-              title="Save with the artifact, problem and description. Drafts do not count as evidence."
-            >
-              Save as draft
             </button>
             <button type="button" class="btn" id="saveBtn">
               Save artifact
@@ -2280,8 +2213,8 @@
                 <button type="button" class="btn btn-ghost" id="pdfBtn">
                   Export PDF
                 </button>
-                <button type="button" class="btn" id="copyBtn">
-                  Copy evidence pack
+                <button type="button" class="btn" id="mdBtn">
+                  Export Markdown
                 </button>
               </span>
             </div>
@@ -2289,26 +2222,6 @@
           </section>
         </div>
       </div>
-      <section
-        class="summary-view"
-        id="summaryView"
-        hidden
-        aria-labelledby="tabSummary"
-      >
-        <div class="summary-head">
-          <div>
-            <h2 class="card-title">Interview summary</h2>
-            <p class="hint">
-              Up to 5 ticked artifacts (all if none are ticked). Each gives a
-              metric, a proof link and a STAR talk track.
-            </p>
-          </div>
-          <button type="button" class="btn btn-ghost" id="printSummaryBtn">
-            Print
-          </button>
-        </div>
-        <div id="summaryBody"></div>
-      </section>
       <section class="howto" id="howtoView" hidden aria-labelledby="tabHowto">
         <div class="howto-hero">
           <h2>Turn your work into promotion evidence</h2>
@@ -2326,7 +2239,8 @@
             <h3>Start your file</h3>
             <p>
               Enter the name, pick the level (project is optional), then click
-              <strong>Start</strong>.
+              <strong>Create new file</strong> or
+              <strong>Open existing</strong>.
             </p>
             <ul>
               <li>
@@ -2366,9 +2280,9 @@
               <li><strong>Artifact</strong>: what you shipped</li>
               <li>
                 <strong>Problem it solved</strong> and
-                <strong>Description</strong>: required, including for drafts
+                <strong>Description</strong>: required
               </li>
-              <li><strong>Competencies</strong>: what it proves</li>
+              <li><strong>Competencies</strong>: required, what it proves</li>
               <li>
                 <strong>Claim story</strong>: auto-drafted from the fields and
                 ticked competencies; edit it
@@ -2384,11 +2298,7 @@
               Short on time? Type the artifact name, the problem it solved and a
               few words of description, then click
               <strong>Suggest competency touched</strong> to tick likely
-              competencies (a keyword match, so check each one). Click
-              <strong>Save as draft</strong> to keep it. Drafts show a Draft tag
-              and stay out of Coverage, the PDF, the Markdown pack and the
-              Interview summary until you finish them and click
-              <strong>Save artifact</strong>.
+              competencies (a keyword match, so check each one).
               <strong>Copy for agent</strong> copies the artifact for the
               <code>gap-artifact-polisher</code> agent, which suggests
               competencies from the knowledge base and lists what is missing.
@@ -2410,7 +2320,8 @@
             <h3>Save and read coverage</h3>
             <p>
               Click <strong>Save artifact</strong>. Red tiles are critical
-              competencies with no evidence yet.
+              competencies with no evidence yet. Save needs the name, problem,
+              description and one competency; the form shows what is missing.
             </p>
           </div>
         </article>
@@ -2420,10 +2331,8 @@
             <h3>Review</h3>
             <p>
               Edit or delete artifacts. Drag the grip on an artifact to reorder
-              it: the order sets the PDF numbers and which artifacts the
-              interview summary uses. Tick
-              <strong>Include in evidence pack</strong> on your best. Edited the
-              JSON by hand? Click <strong>Reload</strong>.
+              it: the order sets the PDF numbers. Edited the JSON by hand?
+              Switch back to this tab to reload it.
             </p>
           </div>
         </article>
@@ -2432,11 +2341,10 @@
           <div>
             <h3>Export</h3>
             <p>
-              <strong>Export PDF</strong> opens a save dialog in your file's
-              folder, or <strong>Copy evidence pack</strong> as Markdown. Both
-              use the ticked artifacts for the current level (all if none are
-              ticked). The <strong>Interview summary</strong> tab shows up to
-              five of them, with a print button.
+              <strong>Export PDF</strong> or
+              <strong>Export Markdown</strong> opens a save dialog in your
+              file's folder. Both use all ready artifacts for the current level.
+              Agent drafts are excluded until you edit them and save here.
             </p>
             <button type="button" class="btn howto-cta" id="howtoStart">
               Start tagging
@@ -2462,10 +2370,15 @@
               <code>source/your-name-le.json</code>.
             </li>
             <li>
-              Click <strong>Open existing</strong> and choose that file. If it
-              is already open, click <strong>Reload</strong>.
+              Click <strong>Open existing</strong> and choose that file. Hand
+              edits reload when you return to this tab.
             </li>
           </ol>
+          <p>
+            Unfinished artifact? Say <strong>draft</strong> in the chat, or use
+            <strong>Copy for agent</strong> with required items blank. The agent
+            saves it as a draft and lists what is missing.
+          </p>
           <details open>
             <summary>Limits</summary>
             <ul>
@@ -2474,12 +2387,12 @@
                 confidential customer data.
               </li>
               <li>
-                The agent suggests figure status, proof, competencies (first is
-                primary) and pack. Check them in the review.
+                The agent suggests figure status, proof and competencies (first
+                is primary). Check them in the review.
               </li>
               <li>
                 Agent claims carry <code>createdAt</code> 2026-11-06. To change
-                it, edit the JSON and click <strong>Reload</strong>.
+                it, edit the JSON and return to this tab.
               </li>
             </ul>
           </details>
@@ -2487,8 +2400,19 @@
         <div class="howto-faq">
           <h3>Troubleshooting</h3>
           <details>
-            <summary>Start is greyed out</summary>
+            <summary>Create new file is greyed out</summary>
             <p>Enter the candidate name.</p>
+          </details>
+          <details>
+            <summary>Export PDF downloads a file</summary>
+            <p>
+              The save dialog could not open. Find the file in your Downloads
+              folder.
+            </p>
+          </details>
+          <details>
+            <summary>This browser cannot create or save data files</summary>
+            <p>Open the app in Microsoft Edge or Chrome.</p>
           </details>
           <details>
             <summary>Access refused</summary>
@@ -2788,18 +2712,57 @@
           ? text
           : text.charAt(0).toLowerCase() + text.slice(1);
       };
-      // Claim story: a sentence per ticked competency, then a possible outcome.
-      function buildStory({ point = "", consequence = "", competencies = [] }) {
+      const sentence = (text) => {
+        const clean = stripEnd(text);
+        return clean
+          ? `${clean.charAt(0).toUpperCase()}${clean.slice(1)}.`
+          : "";
+      };
+      // Claim story: artifact, problem, description, the scenario sentence behind each competency, then the outcome.
+      function buildStory({
+        point = "",
+        problem = "",
+        description = "",
+        consequence = "",
+        competencies = [],
+      }) {
         if (!stripEnd(point)) return "";
+        const lines = htmlToText(description)
+          .split("\n")
+          .map((line) => line.replace(/^\s*-\s*/, "").trim())
+          .filter(Boolean);
+        const scenario = lines
+          .flatMap((text) => text.split(/(?<=[.!?])\s+/))
+          .map((text) => text.trim())
+          .filter(Boolean);
         const tierIndex = (code) => {
           const index = TIERS.findIndex((t) => t.key === tierOf(code));
           return index < 0 ? TIERS.length : index;
         };
-        const sentences = COMPETENCIES.filter((c) =>
-          competencies.includes(c.code),
-        )
+        const sentences = [sentence(point)];
+        if (stripEnd(problem))
+          sentences.push(
+            `It solved this problem: ${lowerFirst(stripEnd(problem))}.`,
+          );
+        lines.forEach((line) => sentences.push(sentence(line)));
+        COMPETENCIES.filter((c) => competencies.includes(c.code))
           .sort((a, b) => tierIndex(a.code) - tierIndex(b.code))
-          .map((c) => COMPETENCY_TOUCH[c.code]);
+          .forEach((c) => {
+            const hints = hintsFor(c.code);
+            const evidence = scenario
+              .map((text) => ({
+                text,
+                score: hints.filter((hint) => hint.re.test(text.toLowerCase()))
+                  .length,
+              }))
+              .filter((hit) => hit.score)
+              .sort((a, b) => b.score - a.score)[0]?.text;
+            sentences.push(
+              evidence
+                ? `${c.name}: ${sentence(evidence)}`
+                : COMPETENCY_TOUCH[c.code],
+            );
+          });
         const result = stripEnd(consequence);
         if (result) sentences.push(`Possible outcome: ${lowerFirst(result)}.`);
         return sentences.join(" ");
@@ -2821,7 +2784,6 @@
           figureStatus: $("figureStatus").value,
           proofStatus: $("proofStatus").value,
           doneOn: $("doneOn").value,
-          selectedForPack: $("selectedForPack").checked,
         };
       }
 
@@ -2834,7 +2796,6 @@
         $("figureStatus").value = claim.figureStatus || "";
         $("proofStatus").value = claim.proofStatus || "";
         setMonth(claim.doneOn || "");
-        $("selectedForPack").checked = Boolean(claim.selectedForPack);
       }
 
       function renderLevelOptions() {
@@ -2904,6 +2865,8 @@
       function storyInputFromForm() {
         return {
           point: $("point").value,
+          problem: $("problem").value,
+          description: getDescriptionHtml(),
           consequence: $("consequence").value,
           competencies: getSelectedCodes(),
         };
@@ -2918,87 +2881,83 @@
             : "";
       }
 
-      function regenerateStory() {
-        const input = storyInputFromForm();
-        if (!input.point.trim() || !input.competencies.length) {
-          showNote(
-            "draftNote",
-            "Name the artifact and tick at least one competency to regenerate the story.",
-            true,
-          );
-          return;
-        }
-        setDraftEdited(false);
-        updateDraft();
-        showNote("draftNote", "");
-      }
-
       // Trigger words per competency, drawn from the knowledge base (S05, S11, S12). Hints only: the user decides.
+      // A leading "~" marks a generic word, which counts half as much as a specific one.
       const COMPETENCY_HINTS = {
         OWN: [
-          "owned",
-          "maintain",
+          "ownership",
+          "\\bowned\\b",
+          "owner of",
+          "accountab",
           "end-to-end",
-          "\\bdrove",
+          "start to finish",
           "took over",
           "sign-off",
           "on-call",
-          "follow-up",
+          "~follow-up",
+          "~\\bmaintain",
+          "~\\bdrove",
         ],
         DOM: [
           "domain",
           "business rule",
           "regulat",
           "compliance",
-          "customer",
           "user journey",
-          "requirement",
-          "workflow",
+          "acceptance criteria",
+          "~requirement",
+          "~customer",
+          "~workflow",
+          "~specification",
         ],
         TST: [
           "exploratory",
           "regression",
           "test case",
+          "test design",
+          "test coverage",
           "boundary",
           "edge case",
-          "test design",
-          "smoke",
           "negative test",
+          "smoke",
           "risk-based",
+          "~\\bcoverage",
         ],
         BUG: [
           "\\bbug",
           "defect",
           "root cause",
           "triage",
-          "escape",
           "severity",
           "reproduc",
           "incident",
+          "escaped",
         ],
         TPS: [
           "test plan",
-          "strategy",
-          "\\bscope",
-          "\\brisk",
+          "test strategy",
           "entry criteria",
           "exit criteria",
-          "prioriti",
           "test approach",
+          "~strategy",
+          "~\\bscope",
+          "~\\brisk",
+          "~prioriti",
+          "~estimat",
         ],
         COM: [
           "stakeholder",
-          "hand-?off",
-          "\\bdemo",
-          "present",
           "cross-team",
           "collaborat",
-          "\\balign",
+          "\\bdemo",
           "workshop",
+          "walkthrough",
           "knowledge transfer",
+          "~hand-?off",
+          "~\\balign",
+          "~present",
         ],
         TLS: [
-          "\\btool",
           "playwright",
           "selenium",
           "cypress",
@@ -3006,27 +2965,34 @@
           "\\bjira",
           "jmeter",
           "\\bk6\\b",
-          "template",
-          "plugin",
-          "librar",
+          "~\\btool",
+          "~template",
+          "~plugin",
+          "~librar",
+          "~configur",
         ],
         PSC: [
           "diagnos",
           "bottleneck",
-          "investigat",
           "trade-?off",
-          "debug",
-          "analy[sz]",
-          "optimi[sz]",
+          "root-cause analysis",
+          "~investigat",
+          "~debug",
+          "~hypothes",
+          "~analy[sz]",
+          "~optimi[sz]",
         ],
         AUT: [
-          "automat",
+          "test automation",
+          "automated (test|check|suite)",
           "\\bscript",
           "\\be2e\\b",
           "test suite",
           "framework",
+          "page object",
           "api test",
-          "\\bbot\\b",
+          "~automat",
+          "~\\bbot\\b",
         ],
         LDR: [
           "mentor",
@@ -3034,13 +3000,16 @@
           "onboard",
           "\\btrain",
           "\\bled\\b",
-          "\\blead",
+          "\\bleading\\b",
+          "tech lead",
           "guided",
           "adopted by",
           "team adopted",
-          "\\bpair",
           "upskill",
-          "guideline",
+          "knowledge transfer",
+          "~\\badopt",
+          "~\\bpair",
+          "~guideline",
         ],
         LRN: [
           "\\bai\\b",
@@ -3052,64 +3021,76 @@
           "innovat",
           "experiment",
           "\\bspike",
-          "research",
+          "~research",
+          "~\\btrial",
+          "~certif",
         ],
         CID: [
           "ci/cd",
           "\\bci\\b",
-          "pipeline",
-          "\\bgate",
           "github actions",
           "jenkins",
           "azure devops",
-          "deploy",
-          "docker",
           "devops",
+          "docker",
+          "pipeline",
+          "~deploy",
+          "~\\bgate",
+          "~release",
         ],
       };
 
-      function suggestionText() {
-        return [
-          $("point").value,
-          htmlToText(getDescriptionHtml()),
-          $("problem").value,
-          $("consequence").value,
-          $("before").value,
-          $("after").value,
-          $("method").value,
-        ]
-          .join(" ")
-          .toLowerCase();
+      // Each hint carries its weight: 2 for specific words, 1 for generic ones. Matches return the whole word.
+      const hintsFor = (code) =>
+        (COMPETENCY_HINTS[code] || []).map((source) => ({
+          re: new RegExp(`[\\w-]*(?:${source.replace(/^~/, "")})[\\w-]*`),
+          weight: source.startsWith("~") ? 1 : 2,
+        }));
+
+      // Title and problem are the strongest signals, so they are kept apart from the rest.
+      function suggestionFields() {
+        const lower = (parts) => parts.join(" ").toLowerCase();
+        return {
+          primary: lower([$("point").value, $("problem").value]),
+          secondary: lower([
+            htmlToText(getDescriptionHtml()),
+            $("consequence").value,
+            $("before").value,
+            $("after").value,
+            $("method").value,
+          ]),
+        };
       }
 
       const SUGGESTION_CAP = 5;
 
-      // Ranks competencies by distinct trigger words found; critical tiers win ties.
-      // Count is capped at 5 and falls to 1 or 2 when the text holds few distinct signals.
-      function rankCompetencies(text) {
+      // Scores each competency from its hints; a score of 2 or more is needed, and critical tiers win ties.
+      function rankCompetencies({ primary, secondary }) {
         const tierRank = (code) =>
           TIERS.findIndex((t) => t.key === tierOf(code));
-        const ranked = COMPETENCIES.map((c) => {
+        return COMPETENCIES.map((c) => {
           const words = [];
-          for (const source of COMPETENCY_HINTS[c.code] || []) {
-            const match = text.match(new RegExp(source));
-            if (match) words.push(match[0].trim());
+          let score = 0;
+          for (const hint of hintsFor(c.code)) {
+            const inPrimary = primary.match(hint.re);
+            const inSecondary = secondary.match(hint.re);
+            const fieldWeight = inPrimary ? 2 : inSecondary ? 1 : 0;
+            if (!fieldWeight) continue;
+            score += hint.weight * fieldWeight;
+            words.push((inPrimary || inSecondary)[0].trim());
           }
-          return { code: c.code, words };
+          return { code: c.code, words, score };
         })
-          .filter((hit) => hit.words.length)
+          .filter((hit) => hit.score >= 2)
           .sort(
-            (a, b) =>
-              b.words.length - a.words.length ||
-              tierRank(a.code) - tierRank(b.code),
-          );
-        const signals = new Set(ranked.flatMap((hit) => hit.words)).size;
-        return ranked.slice(0, Math.min(SUGGESTION_CAP, Math.max(1, signals)));
+            (a, b) => b.score - a.score || tierRank(a.code) - tierRank(b.code),
+          )
+          .slice(0, SUGGESTION_CAP);
       }
 
       function suggestCompetencies() {
-        const text = suggestionText();
-        if (!text.trim()) {
+        const fields = suggestionFields();
+        if (!fields.primary.trim() && !fields.secondary.trim()) {
           showNote(
             "suggestNote",
             "Add the artifact name or a description first.",
@@ -3117,7 +3098,7 @@
           );
           return;
         }
-        const hits = rankCompetencies(text);
+        const hits = rankCompetencies(fields);
         if (!hits.length) {
           showNote(
             "suggestNote",
@@ -3139,14 +3120,13 @@
             .map((hit) => `${nameOf(hit.code)} (${hit.words.join(", ")})`)
             .join("; ")}. Untick anything you cannot prove.`,
         );
-        showToast(
-          "AI can make mistakes. Check every suggestion before you save.",
-        );
+        showToast("Check every suggestion before you save.");
       }
 
       async function copyForAgent() {
         const point = $("point").value.trim();
         if (!point) {
+          openFormSections();
           showFormError("Name the artifact first.");
           return;
         }
@@ -3548,7 +3528,6 @@
           ${isDraft(claim) ? '<span class="comp-tag draft-tag">Draft: not in coverage or exports</span>' : ""}
           ${isDraft(claim) && !claim.competencies.length ? '<span class="comp-tag warn-tag">No competencies</span>' : ""}
           ${claim.competencies.map((code) => `<span class="comp-tag" style="${compVars(code)}"><i class="dot"></i>${esc(nameOf(code))}</span>`).join("")}
-          ${claim.selectedForPack ? '<span class="comp-tag pack-tag">In pack</span>' : ""}
           ${PROOF_STATUS[claim.proofStatus] ? `<span class="comp-tag">${esc(PROOF_STATUS[claim.proofStatus])}</span>` : ""}
           ${claimIssues(claim)
             .map(
@@ -3579,6 +3558,12 @@
           .join("");
       }
 
+      function openFormSections() {
+        document.querySelectorAll(".form-section").forEach((section) => {
+          section.open = true;
+        });
+      }
+
       function resetForm() {
         $("point").value = "";
         $("description").innerHTML = "";
@@ -3598,7 +3583,6 @@
           "suggestNote",
           "Select every competency this artifact touches.",
         );
-        showNote("draftNote", "");
         setDraftEdited(false);
         setEditing(null);
         renderLinks();
@@ -3614,7 +3598,7 @@
         $("saveBtn").textContent = id ? "Update artifact" : "Save artifact";
       }
 
-      async function saveClaim(asDraft = false) {
+      async function saveClaim() {
         if ($("linkInput").value.trim()) addLink();
         // Link text without a URL is dropped.
 
@@ -3622,18 +3606,17 @@
         const problem = $("problem").value.trim();
         const description = getDescriptionHtml();
         const codes = getSelectedCodes();
-        const draft =
-          $("draft").value.trim() ||
-          (asDraft && point ? buildStory(storyInputFromForm()) : "");
+        const draft = $("draft").value.trim();
         const errors = [];
         if (!point) errors.push("Name the artifact.");
         if (!problem) errors.push("Describe the problem it solved.");
         if (!htmlToText(description).trim()) errors.push("Add a description.");
-        if (!asDraft && !codes.length)
-          errors.push("Tag at least one competency.");
-        if (!asDraft && !draft) errors.push("The claim story cannot be empty.");
+        if (!codes.length) errors.push("Tag at least one competency.");
         showFormError(errors.join(" "));
-        if (errors.length) return;
+        if (errors.length) {
+          openFormSections();
+          return;
+        }
 
         const saved = {
           id: state.editingId || Date.now().toString(36),
@@ -3645,7 +3628,7 @@
           images: [...state.images],
           flow: [...state.flow],
           ...readEvidenceFields(),
-          status: asDraft ? "draft" : "ready",
+          status: "ready",
           level: state.level,
           createdAt: new Date().toISOString(),
         };
@@ -3689,11 +3672,14 @@
           claim.claim !==
             buildStory({
               point: claim.point,
+              problem: claim.problem,
+              description: claim.description,
               consequence: claim.consequence,
               competencies: claim.competencies,
             }),
         );
         setEditing(id);
+        openFormSections();
         renderLinks();
         renderImages();
         renderFlowForm();
@@ -3748,64 +3734,124 @@
           );
       }
 
-      function packClaims() {
-        const all = readyClaims();
-        const picked = all.filter((claim) => claim.selectedForPack);
-        return picked.length ? picked : all;
+      // Table cells need escaped pipes; key-value bullets need one line per value.
+      const mdCell = (text) => String(text).replace(/\|/g, "\\|");
+      const mdLine = (text) =>
+        String(text)
+          .replace(/\s*\n\s*/g, " ")
+          .trim();
+
+      function artifactMarkdown(claim, number) {
+        const links = claim.links
+          .map(asLink)
+          .map(({ url, label }) => (label ? `[${label}](${url})` : url))
+          .join(", ");
+        const fields = [
+          ["Claim story", claim.claim],
+          ["Competencies", claim.competencies.map(nameOf).join(", ")],
+          ...impactRows(claim),
+          ["Links", links],
+          [
+            "Images",
+            (claim.images || []).length
+              ? `${claim.images.length} attached`
+              : "",
+          ],
+        ].filter(([, value]) => value);
+        const description = htmlToText(claim.description || "");
+        return [
+          `### ${number}. ${mdLine(claim.point)}`,
+          fields
+            .map(([key, value]) => `- **${key}:** ${mdLine(value)}`)
+            .join("\n"),
+          description ? `#### Description\n\n${description}` : "",
+        ]
+          .filter(Boolean)
+          .join("\n\n");
       }
 
       function claimsAsMarkdown() {
         const { name, project } = state.candidate;
-        const heading = name
-          ? `# ${name}${project ? ` (${project})` : ""}\n\n`
-          : "";
+        const claims = readyClaims();
+        const countOf = (code) =>
+          claims.filter((claim) => claim.competencies.includes(code)).length;
+        const tierLabel = (code) => {
+          const key = tierOf(code);
+          return TIERS.find((t) => t.key === key)?.label || key;
+        };
         return (
-          heading +
-          packClaims()
-            .map((claim) => {
-              const tags = claim.competencies.map(nameOf).join(", ");
-              const lines = [
-                `- ${claim.point}`,
-                ...(claim.claim ? [`  - Claim story: ${claim.claim}`] : []),
-                `  - Competencies touched: ${tags}`,
-              ];
-              const text = htmlToText(claim.description || "");
-              if (text)
-                lines.push(`  - Description: ${text.replace(/\n/g, "\n    ")}`);
-              if (claim.links.length)
-                lines.push(
-                  `  - Proof: ${claim.links
-                    .map(asLink)
-                    .map(({ url, label }) =>
-                      label ? `[${label}](${url})` : url,
-                    )
-                    .join(", ")}`,
-                );
-              if ((claim.images || []).length)
-                lines.push(`  - Images attached: ${claim.images.length}`);
-              impactRows(claim).forEach(([key, value]) =>
-                lines.push(`  - ${key}: ${value}`),
-              );
-              if (claim.selectedForPack)
-                lines.push("  - In evidence pack: yes");
-              return lines.join("\n");
-            })
-            .join("\n")
+          [
+            `# ${mdLine(name || "Candidate")}${project ? ` (${mdLine(project)})` : ""}`,
+            [
+              "## Summary",
+              "",
+              "| Field | Value |",
+              "| --- | --- |",
+              `| Level | ${mdCell(state.level)} |`,
+              `| Artifacts | ${claims.length} |`,
+            ].join("\n"),
+            [
+              "## Coverage",
+              "",
+              "| Competency | Tier | Artifacts |",
+              "| --- | --- | --- |",
+              ...COMPETENCIES.map(
+                (c) =>
+                  `| ${mdCell(c.name)} | ${mdCell(tierLabel(c.code))} | ${countOf(c.code)} |`,
+              ),
+            ].join("\n"),
+            [
+              "## Artifacts",
+              ...claims.map((claim, i) => artifactMarkdown(claim, i + 1)),
+            ].join("\n\n"),
+          ].join("\n\n") + "\n"
         );
       }
 
-      async function copyMarkdown() {
-        const button = $("copyBtn");
-        if (!readyClaims().length) return;
+      function exportFileName(extension) {
+        const slug = (state.candidate.name || "candidate")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+        return `${slug || "candidate"}-${state.level.toLowerCase()}-evidence.${extension}`;
+      }
+
+      async function saveExport(blob, fileName, description, mime, extension) {
         try {
-          await navigator.clipboard.writeText(claimsAsMarkdown());
-          button.textContent = "Copied";
-        } catch {
-          button.textContent = "Copy failed";
+          // startIn opens the dialog in the data file's folder.
+          const handle = await window.showSaveFilePicker({
+            suggestedName: fileName,
+            ...(state.dataFile ? { startIn: state.dataFile } : {}),
+            types: [{ description, accept: { [mime]: [extension] } }],
+          });
+          const writable = await handle.createWritable();
+          await writable.write(blob);
+          await writable.close();
+          showToast(`Saved ${handle.name}`);
+        } catch (error) {
+          if (error.name === "AbortError") return;
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = fileName;
+          link.click();
+          URL.revokeObjectURL(link.href);
+          showToast(`Downloaded ${fileName}`);
         }
-        setTimeout(() => {
-          button.textContent = "Copy evidence pack";
-        }, 1500);
+      }
+
+      async function exportMarkdown() {
+        if (!readyClaims().length) {
+          showToast(`No ${state.level} artifacts to export yet`);
+          return;
+        }
+        const blob = new Blob([claimsAsMarkdown()], { type: "text/markdown" });
+        await saveExport(
+          blob,
+          exportFileName("md"),
+          "Markdown",
+          "text/markdown",
+          ".md",
+        );
       }
 
       const latin1 = (text) => Uint8Array.from(text, (c) => c.charCodeAt(0));
@@ -4186,8 +4232,15 @@
           const critical = COMPETENCIES.filter(
             (c) => tierOf(c.code) === "critical",
           );
-          const critCovered = critical.filter((c) => counts[c.code]).length;
-          const covered = COMPETENCIES.filter((c) => counts[c.code]).length;
+          const important = COMPETENCIES.filter(
+            (c) => tierOf(c.code) === "important",
+          );
+          const tierStat = (list) => ({
+            covered: list.filter((c) => counts[c.code]).length,
+            total: list.length,
+          });
+          const critStat = tierStat(critical);
+          const impStat = tierStat(important);
           const persona = LEVELS.find((l) => l.code === state.level)?.persona;
           const created = (
             state.extra?.createdAt ||
@@ -4216,44 +4269,94 @@
           });
           y = subY - 26;
 
-          openSeg(16);
-          eyebrow(
-            `Competency matrix, ${covered} of ${COMPETENCIES.length} covered${critical.length ? `, ${critCovered} of ${critical.length} critical` : ""}`,
-            C.muted,
-            12,
-          );
-          const colW = width / 2;
-          for (let i = 0; i < COMPETENCIES.length; i += 2) {
-            ensure(20);
-            y -= 20;
-            COMPETENCIES.slice(i, i + 2).forEach((comp, j) => {
-              const x = left + j * colW;
-              const n = counts[comp.code] || 0;
-              const p = compPalette(comp.code);
-              const nText = String(n);
-              const nW = measure(nText, 9.5, "F2");
+          const cardH = 92;
+          const cardGap = 12;
+          const cardW = (TEXT_W - cardGap * 2) / 3;
+          ensure(cardH + 90);
+          eyebrow("Evidence at a glance", C.muted, 12);
+          const cardTop = y;
+          const statCard = (i, label, value, sub, pct, fill) => {
+            const x = MARGIN + i * (cardW + cardGap);
+            const bottom = cardTop - cardH;
+            page.ops.push(
+              rrect(x, bottom, cardW, cardH, 12, C.surface, C.border),
+            );
+            put(
+              label.toUpperCase(),
+              x + 14,
+              cardTop - 20,
+              7.5,
+              "F2",
+              C.muted,
+              0.9,
+            );
+            put(value, x + 14, cardTop - 50, 24, "F3", C.text);
+            put(
+              fit(sub, 8.5, "F1", cardW - 28),
+              x + 14,
+              cardTop - 65,
+              8.5,
+              "F1",
+              C.muted,
+            );
+            if (pct === null) return;
+            const barW = cardW - 28;
+            page.ops.push(
+              rrect(x + 14, bottom + 14, barW, 4, 2, C.alt, C.border),
+            );
+            if (pct > 0)
               page.ops.push(
-                rrect(x, y + 7, 6, 6, 3, rgbPdf(p.solid), rgbPdf(p.solid)),
+                rrect(x + 14, bottom + 14, barW * pct, 4, 2, fill, fill),
               );
-              put(
-                fit(nameOf(comp.code), 9.5, "F1", colW - nW - 40),
-                x + 14,
-                y + 6.5,
-                9.5,
-                "F1",
-                C.text,
-              );
-              put(
-                nText,
-                x + colW - 16 - nW,
-                y + 6.5,
-                9.5,
-                "F2",
-                n ? C.text : C.muted,
-              );
-            });
+          };
+          const tierPct = (stat) =>
+            stat.total ? stat.covered / stat.total : null;
+          statCard(
+            0,
+            "Artifacts",
+            String(claims.length),
+            claims.length === 1 ? "ready artifact" : "ready artifacts",
+            null,
+          );
+          statCard(
+            1,
+            "Critical",
+            critStat.total ? `${critStat.covered} of ${critStat.total}` : "n/a",
+            critStat.total
+              ? "critical covered"
+              : "No critical tier for this level",
+            tierPct(critStat),
+            rgbPdf(tierPalette("critical").solid),
+          );
+          statCard(
+            2,
+            "Important",
+            impStat.total ? `${impStat.covered} of ${impStat.total}` : "n/a",
+            impStat.total
+              ? "important covered"
+              : "No important tier for this level",
+            tierPct(impStat),
+            rgbPdf(tierPalette("important").solid),
+          );
+          y = cardTop - cardH;
+
+          const gapLine = (label, list) => {
+            if (!list.length) return "";
+            const open = list
+              .filter((c) => !counts[c.code])
+              .map((c) => nameOf(c.code));
+            return `- ${label}: ${open.length ? open.join(", ") : "all covered"}`;
+          };
+          const gapText = [
+            gapLine("Critical gaps", critical),
+            gapLine("Important gaps", important),
+          ]
+            .filter(Boolean)
+            .join("\n");
+          if (gapText) {
+            y -= 14;
+            write(gapText, { size: 9.5, color: C.muted, lh: 1.5 });
           }
-          closeSeg();
 
           ensure(90);
           y -= 28;
@@ -4323,13 +4426,12 @@
             chips(
               claim.competencies.map((code) => ({ label: nameOf(code), code })),
             );
-            const rows = [
-              ...(claim.claim ? [["Claim story", claim.claim]] : []),
-              ...impactRows(claim),
-            ];
+            const rows = impactRows(claim).filter(
+              ([key]) => key !== "Proof strength",
+            );
             if (rows.length) {
               divider();
-              sectionHead("Impact");
+              sectionHead("Impacts");
               rows.forEach(([key, value]) => {
                 wrap(value, 10, "F1", width - 120).forEach((line, i) => {
                   ensure(13.5);
@@ -4345,6 +4447,11 @@
               divider();
               sectionHead("Description");
               write(description, { size: 10, lh: 1.35 });
+            }
+            if (claim.claim) {
+              divider();
+              sectionHead("Claim Story");
+              write(claim.claim, { size: 10, lh: 1.35 });
             }
             if (claim.links.length) {
               divider();
@@ -4551,7 +4658,7 @@
         );
         begin(infoId);
         push(
-          `<< /Title ${pdfLiteral(`${name || "Candidate"} - ${state.level} promotion evidence`)} /Author ${pdfLiteral(name || "")} /Creator (GAP Bajaidim) >>\nendobj\n`,
+          `<< /Title ${pdfLiteral(`${name || "Candidate"} - ${state.level} promotion evidence`)} /Author ${pdfLiteral(name || "")} /Creator (GAP Handim) >>\nendobj\n`,
         );
         begin(outlineRootId);
         push(
@@ -4577,16 +4684,11 @@
       }
 
       async function exportPdf() {
-        const claims = packClaims();
+        const claims = readyClaims();
         if (!claims.length) {
           showToast(`No ${state.level} artifacts to export yet`);
           return;
         }
-        const slug = (state.candidate.name || "candidate")
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-+|-+$/g, "");
-        const fileName = `${slug || "candidate"}-${state.level.toLowerCase()}-evidence.pdf`;
         let blob;
         try {
           blob = buildPdf(claims);
@@ -4594,28 +4696,13 @@
           showToast(`Could not build the PDF: ${error.message}`);
           return;
         }
-        try {
-          // startIn opens the dialog in the data file's folder.
-          const handle = await window.showSaveFilePicker({
-            suggestedName: fileName,
-            ...(state.dataFile ? { startIn: state.dataFile } : {}),
-            types: [
-              { description: "PDF", accept: { "application/pdf": [".pdf"] } },
-            ],
-          });
-          const writable = await handle.createWritable();
-          await writable.write(blob);
-          await writable.close();
-          showToast(`Saved ${handle.name}`);
-        } catch (error) {
-          if (error.name === "AbortError") return;
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(blob);
-          link.download = fileName;
-          link.click();
-          URL.revokeObjectURL(link.href);
-          showToast(`Downloaded ${fileName}`);
-        }
+        await saveExport(
+          blob,
+          exportFileName("pdf"),
+          "PDF",
+          "application/pdf",
+          ".pdf",
+        );
       }
 
       function setDataStatus(message, isError = false) {
@@ -4806,7 +4893,7 @@
 
       function backupData() {
         const stamp = new Date().toISOString().slice(0, 10);
-        const base = (state.dataFile?.name || "bajaidim.json").replace(
+        const base = (state.dataFile?.name || "handim.json").replace(
           /\.json$/i,
           "",
         );
@@ -4843,7 +4930,7 @@
 
       async function commitClaims(nextClaims) {
         if (!state.dataFile)
-          throw new Error("click Start (top of the page) first.");
+          throw new Error("create or open a data file first.");
         if (state.busy) throw new Error("a save is already in progress.");
         state.busy = true;
         try {
@@ -4883,14 +4970,8 @@
         $("candidateProject").value = state.candidate.project;
         updateStartEnabled();
         $("connNote").textContent =
-          `Connected. Saving to ${handle.name} (${n} artifact${n === 1 ? "" : "s"}). Edit it by hand any time, then click Reload.`;
+          `Connected. Saving to ${handle.name} (${n} artifact${n === 1 ? "" : "s"}). Hand edits reload when you return to this tab.`;
         document.querySelector(".data-bar").classList.add("is-connected");
-        $("createBtn").textContent = "Switch file";
-        setConnectButton(
-          "Open another",
-          "Open a different data file from disk",
-        );
-        $("reloadBtn").hidden = false;
         $("backupBtn").hidden = false;
       }
 
@@ -4909,7 +4990,7 @@
           showConnected(handle);
         } catch (error) {
           setDataStatus(
-            `Could not read ${handle.name}: ${error.message} Fix the file, then click Reload.`,
+            `Could not read ${handle.name}: ${error.message} Fix the file and try again.`,
             true,
           );
         }
@@ -4969,6 +5050,8 @@
         }
         await rememberDataFile(handle);
         state.dataFile = handle;
+        // An open edit belongs to the previous file; saving it here would overwrite or drop an item.
+        if (state.editingId) resetForm();
         state.claims = claims;
         renderClaims();
         renderCoverage();
@@ -5039,7 +5122,7 @@
         $("createBtn").disabled = empty;
         $("createBtn").title = empty
           ? "Enter the candidate name first"
-          : "Create a new data file, or switch to another one";
+          : "Create a new data file";
       }
 
       async function onConnectClick() {
@@ -5123,53 +5206,11 @@
         }, 600);
       }
 
-      function summaryItemHtml(claim, index) {
-        const metric =
-          claim.before || claim.after
-            ? `${claim.before || "?"} → ${claim.after || "?"}`
-            : "No metric";
-        const action = htmlToText(claim.description || "") || "Not set";
-        const result =
-          [claim.after, claim.consequence].filter(Boolean).join(". ") ||
-          "Not set";
-        const link = claim.links.length
-          ? `<p class="summary-link">${renderLinkAnchor(claim.links[0])}</p>`
-          : "";
-        return `<article class="summary-item">
-          <p class="summary-num">${String(index + 1).padStart(2, "0")}</p>
-          <div>
-            <h3>${esc(claim.point)}</h3>
-            <p class="summary-metric"><strong>Metric:</strong> ${esc(metric)}</p>
-            ${link}
-            <dl class="impact-list">
-              <dt>Situation</dt><dd>${esc(claim.problem || "Not set")}</dd>
-              <dt>Task</dt><dd>${esc(claim.point || "Not set")}</dd>
-              <dt>Action</dt><dd>${esc(action)}</dd>
-              <dt>Result</dt><dd>${esc(result)}</dd>
-            </dl>
-          </div>
-        </article>`;
-      }
-
-      function renderSummary() {
-        const name = $("candidateName").value.trim() || "Candidate";
-        const top = packClaims().slice(0, 5);
-        const items = top.length
-          ? top.map(summaryItemHtml).join("")
-          : '<p class="hint">Add artifacts to build the summary.</p>';
-        $("summaryBody").innerHTML =
-          `<p class="summary-name">${esc(name)} · ${esc(state.level)} interview summary</p>${items}`;
-      }
-
       function showView(view) {
         const howto = view === "howto";
-        const summary = view === "summary";
-        document.querySelector(".layout").hidden = howto || summary;
+        document.querySelector(".layout").hidden = howto;
         $("howtoView").hidden = !howto;
-        $("summaryView").hidden = !summary;
-        if (summary) renderSummary();
         $("tabTagger").setAttribute("aria-selected", String(view === "tagger"));
-        $("tabSummary").setAttribute("aria-selected", String(summary));
         $("tabHowto").setAttribute("aria-selected", String(howto));
       }
 
@@ -5182,7 +5223,6 @@
         $("candidateName").addEventListener("input", onProfileInput);
         $("candidateProject").addEventListener("input", onProfileInput);
         $("howtoStart").addEventListener("click", () => showView("tagger"));
-        $("printSummaryBtn").addEventListener("click", () => window.print());
         $("levelSelect").addEventListener("change", (event) =>
           setLevel(event.target.value),
         );
@@ -5194,8 +5234,9 @@
 
         $("competencyPicker").addEventListener("change", updateDraft);
 
-        $("draft").addEventListener("input", () => setDraftEdited(true));
-        $("resetDraftBtn").addEventListener("click", regenerateStory);
+        $("draft").addEventListener("input", (event) =>
+          setDraftEdited(event.target.value.trim() !== ""),
+        );
 
         $("addLinkBtn").addEventListener("click", addLink);
 
@@ -5325,12 +5366,11 @@
           event.preventDefault();
           selectFlowStep(step);
         });
-        $("saveBtn").addEventListener("click", () => saveClaim(false));
-        $("draftBtn").addEventListener("click", () => saveClaim(true));
+        $("saveBtn").addEventListener("click", () => saveClaim());
         $("suggestBtn").addEventListener("click", suggestCompetencies);
         $("agentBtn").addEventListener("click", copyForAgent);
         $("clearBtn").addEventListener("click", resetForm);
-        $("copyBtn").addEventListener("click", copyMarkdown);
+        $("mdBtn").addEventListener("click", exportMarkdown);
         $("pdfBtn").addEventListener("click", exportPdf);
 
         $("claimList").addEventListener("dragstart", (event) => {
@@ -5430,7 +5470,6 @@
 
         $("connectBtn").addEventListener("click", onConnectClick);
         $("createBtn").addEventListener("click", onCreateClick);
-        $("reloadBtn").addEventListener("click", reloadFromFile);
         $("backupBtn").addEventListener("click", backupData);
         initMonthPicker();
         window.addEventListener("focus", checkExternalChanges);

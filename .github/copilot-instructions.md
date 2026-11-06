@@ -1,6 +1,6 @@
-# GAP Bajaidim: project rules
+# GAP Handim: project rules
 
-GAP Bajaidim is a single-file tool (`view/gap-bajaidim-tagger.html`) that helps QAs organize and showcase a year of achievements for the GAP interview. Each claim has a generated claim story that names the competencies it touches and, in its "utility belt", links, images and metrics for the detailed artifact. Created by Nitish Man Shrestha.
+GAP Handim is a single-file tool (`view/gap-handim-tagger.html`) that helps QAs organize and showcase a year of achievements for the GAP interview. Each claim has an optional claim story, built from the artifact, problem, description and the scenario behind each competency it touches and, in its "utility belt", links, images and metrics for the detailed artifact. Created by Nitish Man Shrestha.
 
 ## Sources of truth
 

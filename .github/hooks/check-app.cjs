@@ -13,7 +13,7 @@ const file = path.resolve(
   "..",
   "..",
   "view",
-  "gap-bajaidim-tagger.html",
+  "gap-handim-tagger.html",
 );
 const problems = [];
 

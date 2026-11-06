@@ -1,5 +1,5 @@
 ---
-description: Visual design system for GAP Bajaidim. Use when editing HTML, CSS or UI markup in the tool.
+description: Visual design system for GAP Handim. Use when editing HTML, CSS or UI markup in the tool.
 applyTo: "**/*.html"
 ---
 

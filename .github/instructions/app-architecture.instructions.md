@@ -1,5 +1,5 @@
 ---
-description: Architecture, data model and PDF rules for the GAP Bajaidim single-file app. Use when editing JavaScript, saving or loading claims, or the PDF/markdown export.
+description: Architecture, data model and PDF rules for the GAP Handim single-file app. Use when editing JavaScript, saving or loading claims, or the PDF/markdown export.
 applyTo: "**/*.html"
 ---
 
