@@ -8,7 +8,7 @@ applyTo: "**/*.html"
 ## Data
 
 - Stored as `{ version: 1, candidate: {name, project}, claims: [...] }` in a user-owned JSON file via the File System Access API. `commitClaims()` is the only write path; it checks `lastModified` before writing.
-- Claim fields: `id, point, claim, description (sanitized HTML), competencies[], links[{url,label}], images[] (data URLs), problem, before, after, consequence, method, figureStatus, proofStatus (`verified|self-reported|needs-proof` or absent), cycle, doneOn (YYYY-MM), selectedForPack, level, dataset (`{name, headers[], rows[][], valueCol, chart}` or null), createdAt`.
+- Claim fields: `id, point, claim, description (sanitized HTML), competencies[], links[{url,label}], images[] (data URLs), problem, before, after, consequence, method, figureStatus, proofStatus (`verified|self-reported|needs-proof`or absent), cycle, doneOn (YYYY-MM), selectedForPack, level, dataset (legacy: kept if present in saved JSON, no longer created or edited;`{name, headers[], rows[][], valueCol, chart}` or null), createdAt`.
 - Links may be legacy strings; read them through `asLink`.
 - New fields must be optional and defaulted when reading.
 

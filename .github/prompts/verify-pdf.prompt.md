@@ -2,7 +2,7 @@
 description: Generate a sample PDF from the app and render it to PNG for visual review.
 ---
 
-Verify the PDF export of `view/le-promotion-evidence-tagger.html`.
+Verify the PDF export of `view/gap-bajaidim-tagger.html`.
 
 1. Open the page in the integrated browser.
 2. In the page, set `state.level`, `state.candidate` and two or three sample claims (one with links, nested bullets, images and numbers; one minimal). Call `buildPdf(claims)` and base64 the Blob.

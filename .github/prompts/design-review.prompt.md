@@ -2,7 +2,7 @@
 description: Review the current UI against the design system and report deviations.
 ---
 
-Review `view/le-promotion-evidence-tagger.html` against `.github/instructions/design-system.instructions.md`.
+Review `view/gap-bajaidim-tagger.html` against `.github/instructions/design-system.instructions.md`.
 
 1. Search the CSS for hardcoded colours, font families, weights, radii and spacing that bypass tokens.
 2. Open the page, take screenshots of the Tagger and How to? views, and compare.

@@ -434,6 +434,10 @@
         color: var(--text-muted);
       }
 
+      .hint.is-error {
+        color: var(--danger);
+      }
+
       input[type="text"],
       input[type="password"],
       textarea,
@@ -863,12 +867,6 @@
         font-weight: 600;
       }
 
-      .claim-source {
-        margin: 0 0 var(--space-3);
-        font-size: 13px;
-        color: var(--text-muted);
-      }
-
       .claim a {
         color: var(--primary-hover);
         text-decoration-color: var(--primary-soft);
@@ -1143,6 +1141,10 @@
         transform: translate(-50%, 0);
       }
 
+      .toast.is-error {
+        background: var(--danger);
+      }
+
       .data-status.is-error {
         color: var(--danger);
       }
@@ -1261,22 +1263,6 @@
         }
       }
 
-      .csv-config {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-3);
-        margin-top: var(--space-3);
-      }
-
-      .mini-field {
-        display: flex;
-        flex: 0 1 220px;
-        flex-direction: column;
-        gap: var(--space-1);
-        font-size: 13px;
-        font-weight: 600;
-      }
-
       .chart-box {
         margin: var(--space-3) 0 0;
         padding: var(--space-3);
@@ -1296,21 +1282,6 @@
         font-size: 13px;
         font-weight: 600;
         color: var(--text-muted);
-      }
-
-      .chart-grid {
-        stroke: var(--border);
-        stroke-width: 1;
-      }
-
-      .chart-axis {
-        font-size: 11px;
-        fill: var(--text-muted);
-      }
-
-      .chart-legend {
-        font-size: 12px;
-        fill: var(--text);
       }
 
       .flow-box svg {
@@ -1336,6 +1307,35 @@
 
       .flow-head {
         fill: var(--text-muted);
+      }
+
+      .flow-step {
+        cursor: pointer;
+      }
+
+      .flow-step:hover .flow-node,
+      .flow-step:focus-visible .flow-node {
+        stroke: var(--primary);
+      }
+
+      .flow-step:focus-visible .flow-node {
+        stroke-width: 2.5;
+      }
+
+      .flow-step[aria-pressed="true"] .flow-node {
+        fill: var(--primary-soft);
+        stroke: var(--primary);
+        stroke-width: 2;
+      }
+
+      .flow-caption {
+        margin: var(--space-3) 0 0;
+        font-size: 13px;
+        color: var(--text);
+      }
+
+      .flow-caption:empty {
+        display: none;
       }
 
       .flow-item span {
@@ -1403,7 +1403,23 @@
         background: transparent;
       }
 
+      .draft-tag {
+        border-style: dashed;
+        font-weight: 600;
+      }
+
       .pack-tag {
+        background: var(--primary-soft);
+        border-color: var(--primary);
+        color: var(--primary-hover);
+      }
+
+      .ai-tag {
+        margin-right: var(--space-1);
+        padding: 0 var(--space-2);
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        vertical-align: middle;
         background: var(--primary-soft);
         border-color: var(--primary);
         color: var(--primary-hover);
@@ -1706,11 +1722,12 @@
             </h1>
             <p>
               A year-round workspace for us to organize and showcase their
-              achievements for the GAP interview. Each claim gives the
-              high-level insight at a glance, with screenshots, links and
-              metrics for the detailed artifact one click away in its utility
-              belt. Tag every claim to the reasonable competencies it proves,
-              spot the gaps early, and export a polished PDF or evidence pack.
+              achievements for the GAP interview. Each claim tells its story at
+              a glance, naming the competencies it touches, with screenshots,
+              links and metrics for the detailed artifact one click away in its
+              utility belt. Tag every claim to the reasonable competencies it
+              proves, spot the gaps early, and export a polished PDF or evidence
+              pack.
               <br /><br />Built by a QA, for fellow QAs. <br />All the best!
             </p>
           </div>
@@ -1845,9 +1862,7 @@
           </div>
 
           <div class="field">
-            <label class="label" for="problem"
-              >Problem it solved <span class="optional">(optional)</span></label
-            >
+            <label class="label" for="problem">Problem it solved</label>
             <p class="field-info">
               The situation before your work: the gap or risk, and who it hit.
             </p>
@@ -1859,9 +1874,7 @@
           </div>
 
           <div class="field">
-            <span class="label"
-              >Description <span class="optional">(optional)</span></span
-            >
+            <span class="label">Description</span>
             <p class="field-info">
               Context, your contribution and the approach.
             </p>
@@ -1927,10 +1940,29 @@
           </div>
 
           <div class="field">
-            <span class="label">Competencies touched</span>
+            <div class="label">
+              <span>Competencies touched</span>
+              <span class="label-actions">
+                <button
+                  type="button"
+                  class="btn btn-ghost btn-small"
+                  id="suggestBtn"
+                  title="Tick likely competencies from the words in your artifact, description and impact"
+                >
+                  <span
+                    class="comp-tag ai-tag"
+                    title="Generated by keyword matching. Check before you save."
+                    >AI</span
+                  >
+                  Suggest competency touched
+                </button>
+              </span>
+            </div>
             <p class="field-info">Tick only what you can prove.</p>
             <div id="competencyPicker"></div>
-            <p class="hint">Select every competency this artifact touches.</p>
+            <p class="hint" id="suggestNote">
+              Select every competency this artifact touches.
+            </p>
           </div>
 
           <div class="field">
@@ -1949,25 +1981,31 @@
 
           <div class="field">
             <div class="label">
-              <span>One-liner claim</span>
+              <span>Claim story</span>
               <span class="label-actions">
                 <button
                   type="button"
                   class="btn btn-ghost btn-small"
                   id="resetDraftBtn"
-                  hidden
                 >
-                  Reset to generated
+                  <span
+                    class="comp-tag ai-tag"
+                    title="Generated from the ticked competencies and your fields. Check before you save."
+                    >AI</span
+                  >
+                  Regenerate story
                 </button>
               </span>
             </div>
             <p class="field-info">
-              One impact-focused sentence: the outcome and why it matters.
+              Built from the ticked competencies: how each may be shown, and a
+              possible outcome.
             </p>
             <textarea
               id="draft"
-              placeholder="Generated from the artifact. You can edit it."
+              placeholder="Tick competencies to generate the story. You can edit it."
             ></textarea>
+            <p class="hint" id="draftNote"></p>
           </div>
 
           <h3 class="form-group-title">Impact</h3>
@@ -2154,7 +2192,7 @@
             <span class="label"
               >Images <span class="optional">(optional)</span></span
             >
-            <p class="field-info">Screenshots or charts that back the claim.</p>
+            <p class="field-info">Screenshots that back the claim.</p>
             <div class="input-row">
               <input
                 type="file"
@@ -2177,52 +2215,11 @@
 
           <div class="field">
             <span class="label"
-              >Data <span class="optional">(optional, CSV)</span></span
-            >
-            <p class="field-info">
-              Numbers behind the claim. Charts show on the artifact card.
-            </p>
-            <div class="input-row">
-              <input type="file" id="csvInput" accept=".csv,text/csv" hidden />
-              <button type="button" class="btn btn-ghost" id="addCsvBtn">
-                Choose CSV
-              </button>
-              <button
-                type="button"
-                class="btn btn-ghost btn-danger-ghost"
-                id="clearCsvBtn"
-                hidden
-              >
-                Remove data
-              </button>
-            </div>
-            <p class="hint" id="csvInfo">
-              First row is the header and first column is the label. Up to 500
-              rows.
-            </p>
-            <div class="csv-config" id="csvConfig" hidden>
-              <label class="mini-field">
-                <span>Value column</span>
-                <select id="csvValueCol"></select>
-              </label>
-              <label class="mini-field">
-                <span>Chart</span>
-                <select id="csvChart">
-                  <option value="bar">Bar</option>
-                  <option value="line">Line</option>
-                  <option value="pie">Pie</option>
-                </select>
-              </label>
-            </div>
-            <div class="chart-box" id="csvPreview" hidden></div>
-          </div>
-
-          <div class="field">
-            <span class="label"
               >Flow <span class="optional">(optional)</span></span
             >
             <p class="field-info">
               Steps from start to finish. Shows as a flowchart on the card.
+              Click a step there to read it in full.
             </p>
             <div class="input-row">
               <input
@@ -2244,6 +2241,22 @@
           <div class="actions">
             <button type="button" class="btn btn-ghost" id="clearBtn">
               Clear
+            </button>
+            <button
+              type="button"
+              class="btn btn-ghost"
+              id="agentBtn"
+              title="Copy this artifact as a block for the gap-artifact-polisher agent"
+            >
+              Copy for agent
+            </button>
+            <button
+              type="button"
+              class="btn btn-ghost"
+              id="draftBtn"
+              title="Save with the artifact, problem and description. Drafts do not count as evidence."
+            >
+              Save as draft
             </button>
             <button type="button" class="btn" id="saveBtn">
               Save artifact
@@ -2351,23 +2364,42 @@
             <p>One piece of work someone could verify.</p>
             <ul>
               <li><strong>Artifact</strong>: what you shipped</li>
+              <li>
+                <strong>Problem it solved</strong> and
+                <strong>Description</strong>: required, including for drafts
+              </li>
               <li><strong>Competencies</strong>: what it proves</li>
-              <li><strong>One-liner</strong>: auto-drafted; edit it</li>
+              <li>
+                <strong>Claim story</strong>: auto-drafted from the fields and
+                ticked competencies; edit it
+              </li>
               <li>
                 <strong>Impact</strong> (optional): before, after, how measured
               </li>
               <li>
-                <strong>Proof</strong> (optional): links, screenshots, a CSV
-                chart or a flow
+                <strong>Proof</strong> (optional): links, screenshots or a flow
               </li>
             </ul>
+            <p>
+              Short on time? Type the artifact name, the problem it solved and a
+              few words of description, then click
+              <strong>Suggest competency touched</strong> to tick likely
+              competencies (a keyword match, so check each one). Click
+              <strong>Save as draft</strong> to keep it. Drafts show a Draft tag
+              and stay out of Coverage, the PDF, the Markdown pack and the
+              Interview summary until you finish them and click
+              <strong>Save artifact</strong>.
+              <strong>Copy for agent</strong> copies the artifact for the
+              <code>gap-artifact-polisher</code> agent, which suggests
+              competencies from the knowledge base and lists what is missing.
+            </p>
             <div class="howto-example">
               <span class="howto-example-label">Example</span>
               <p>
                 <strong>Artifact:</strong> PR review bot<br />
                 <strong>Impact:</strong> PR-to-merge 26 hrs to 6 hrs
                 (measured)<br />
-                <strong>Proof:</strong> repo link, before/after chart
+                <strong>Proof:</strong> repo link, before/after numbers
               </p>
             </div>
           </div>
@@ -2590,7 +2622,6 @@
         lastModified: 0,
         links: [],
         images: [],
-        dataset: null,
         flow: [],
         draftEdited: false,
         expandedClaims: new Set(),
@@ -2733,9 +2764,45 @@
         return match ? match.name : code;
       }
 
-      function buildOneLiner(point) {
-        const body = point.trim().replace(/[.\s]+$/, "");
-        return `${body.charAt(0).toUpperCase() + body.slice(1)}.`;
+      // One hedged sentence per competency: how it may be shown, and what it could lead to.
+      const COMPETENCY_TOUCH = {
+        OWN: "Ownership may be shown by carrying the work from delivery through to sign-off, which could reduce hand-offs and open questions.",
+        DOM: "Domain knowledge may be shown by applying the relevant business rules directly to the solution, which could reduce rework from misread requirements.",
+        TST: "Test coverage may be shown by designing and running tests across the affected functional areas, which could surface defects earlier.",
+        BUG: "Bug reporting may be shown by identifying, analysing and documenting defects in enough detail for others to act, which could shorten fix cycles.",
+        TPS: "Test planning may be shown by setting scope, risk priorities and exit criteria before execution, which could keep effort focused on the highest risks.",
+        COM: "Communication and collaboration may be shown by aligning the approach with stakeholders and reviewing it with them, which could reduce late changes.",
+        TLS: "Tools and frameworks may be shown by selecting and configuring suitable options for the work, which could reduce manual effort.",
+        PSC: "Problem solving may be shown by diagnosing root causes and weighing trade-offs before deciding, which could prevent the same fault recurring.",
+        AUT: "Test automation may be shown by replacing repeated manual checks with automated tests, which could shorten regression runs.",
+        LDR: "Leadership may be shown by directing and coaching others on the approach and its standards, which could improve consistency across the team.",
+        LRN: "Learning and innovation may be shown by researching and trialling a new approach before adopting it, which could improve the outcome.",
+        CID: "CI/CD and DevOps may be shown by building the change into the delivery pipeline so that builds, tests and releases run automatically, which could shorten release cycles.",
+      };
+
+      const stripEnd = (text) => text.trim().replace(/[.\s;:]+$/, "");
+      // Keeps acronyms such as PR at the start of a clause.
+      const lowerFirst = (text) => {
+        const first = text.split(" ")[0];
+        return first === first.toUpperCase()
+          ? text
+          : text.charAt(0).toLowerCase() + text.slice(1);
+      };
+      // Claim story: a sentence per ticked competency, then a possible outcome.
+      function buildStory({ point = "", consequence = "", competencies = [] }) {
+        if (!stripEnd(point)) return "";
+        const tierIndex = (code) => {
+          const index = TIERS.findIndex((t) => t.key === tierOf(code));
+          return index < 0 ? TIERS.length : index;
+        };
+        const sentences = COMPETENCIES.filter((c) =>
+          competencies.includes(c.code),
+        )
+          .sort((a, b) => tierIndex(a.code) - tierIndex(b.code))
+          .map((c) => COMPETENCY_TOUCH[c.code]);
+        const result = stripEnd(consequence);
+        if (result) sentences.push(`Possible outcome: ${lowerFirst(result)}.`);
+        return sentences.join(" ");
       }
 
       function getSelectedCodes() {
@@ -2788,6 +2855,13 @@
         );
       }
 
+      // Drafts are saved with the minimum input and never count as evidence.
+      const isDraft = (claim) => claim.status === "draft";
+
+      function readyClaims() {
+        return levelClaims().filter((claim) => !isDraft(claim));
+      }
+
       function setLevel(code) {
         state.level = code;
         $("levelSelect").value = code;
@@ -2827,21 +2901,300 @@
           .join("");
       }
 
+      function storyInputFromForm() {
+        return {
+          point: $("point").value,
+          consequence: $("consequence").value,
+          competencies: getSelectedCodes(),
+        };
+      }
+
       function updateDraft() {
         if (state.draftEdited) return;
-        const point = $("point").value;
-        const codes = getSelectedCodes();
+        const input = storyInputFromForm();
         $("draft").value =
-          point.trim() && codes.length ? buildOneLiner(point) : "";
+          input.point.trim() && input.competencies.length
+            ? buildStory(input)
+            : "";
+      }
+
+      function regenerateStory() {
+        const input = storyInputFromForm();
+        if (!input.point.trim() || !input.competencies.length) {
+          showNote(
+            "draftNote",
+            "Name the artifact and tick at least one competency to regenerate the story.",
+            true,
+          );
+          return;
+        }
+        setDraftEdited(false);
+        updateDraft();
+        showNote("draftNote", "");
+      }
+
+      // Trigger words per competency, drawn from the knowledge base (S05, S11, S12). Hints only: the user decides.
+      const COMPETENCY_HINTS = {
+        OWN: [
+          "owned",
+          "maintain",
+          "end-to-end",
+          "\\bdrove",
+          "took over",
+          "sign-off",
+          "on-call",
+          "follow-up",
+        ],
+        DOM: [
+          "domain",
+          "business rule",
+          "regulat",
+          "compliance",
+          "customer",
+          "user journey",
+          "requirement",
+          "workflow",
+        ],
+        TST: [
+          "exploratory",
+          "regression",
+          "test case",
+          "boundary",
+          "edge case",
+          "test design",
+          "smoke",
+          "negative test",
+          "risk-based",
+        ],
+        BUG: [
+          "\\bbug",
+          "defect",
+          "root cause",
+          "triage",
+          "escape",
+          "severity",
+          "reproduc",
+          "incident",
+        ],
+        TPS: [
+          "test plan",
+          "strategy",
+          "\\bscope",
+          "\\brisk",
+          "entry criteria",
+          "exit criteria",
+          "prioriti",
+          "test approach",
+        ],
+        COM: [
+          "stakeholder",
+          "hand-?off",
+          "\\bdemo",
+          "present",
+          "cross-team",
+          "collaborat",
+          "\\balign",
+          "workshop",
+          "knowledge transfer",
+        ],
+        TLS: [
+          "\\btool",
+          "playwright",
+          "selenium",
+          "cypress",
+          "postman",
+          "\\bjira",
+          "jmeter",
+          "\\bk6\\b",
+          "template",
+          "plugin",
+          "librar",
+        ],
+        PSC: [
+          "diagnos",
+          "bottleneck",
+          "investigat",
+          "trade-?off",
+          "debug",
+          "analy[sz]",
+          "optimi[sz]",
+        ],
+        AUT: [
+          "automat",
+          "\\bscript",
+          "\\be2e\\b",
+          "test suite",
+          "framework",
+          "api test",
+          "\\bbot\\b",
+        ],
+        LDR: [
+          "mentor",
+          "coach",
+          "onboard",
+          "\\btrain",
+          "\\bled\\b",
+          "\\blead",
+          "guided",
+          "adopted by",
+          "team adopted",
+          "\\bpair",
+          "upskill",
+          "guideline",
+        ],
+        LRN: [
+          "\\bai\\b",
+          "copilot",
+          "\\bllm",
+          "prototype",
+          "\\bpoc\\b",
+          "proof of concept",
+          "innovat",
+          "experiment",
+          "\\bspike",
+          "research",
+        ],
+        CID: [
+          "ci/cd",
+          "\\bci\\b",
+          "pipeline",
+          "\\bgate",
+          "github actions",
+          "jenkins",
+          "azure devops",
+          "deploy",
+          "docker",
+          "devops",
+        ],
+      };
+
+      function suggestionText() {
+        return [
+          $("point").value,
+          htmlToText(getDescriptionHtml()),
+          $("problem").value,
+          $("consequence").value,
+          $("before").value,
+          $("after").value,
+          $("method").value,
+        ]
+          .join(" ")
+          .toLowerCase();
+      }
+
+      const SUGGESTION_CAP = 5;
+
+      // Ranks competencies by distinct trigger words found; critical tiers win ties.
+      // Count is capped at 5 and falls to 1 or 2 when the text holds few distinct signals.
+      function rankCompetencies(text) {
+        const tierRank = (code) =>
+          TIERS.findIndex((t) => t.key === tierOf(code));
+        const ranked = COMPETENCIES.map((c) => {
+          const words = [];
+          for (const source of COMPETENCY_HINTS[c.code] || []) {
+            const match = text.match(new RegExp(source));
+            if (match) words.push(match[0].trim());
+          }
+          return { code: c.code, words };
+        })
+          .filter((hit) => hit.words.length)
+          .sort(
+            (a, b) =>
+              b.words.length - a.words.length ||
+              tierRank(a.code) - tierRank(b.code),
+          );
+        const signals = new Set(ranked.flatMap((hit) => hit.words)).size;
+        return ranked.slice(0, Math.min(SUGGESTION_CAP, Math.max(1, signals)));
+      }
+
+      function suggestCompetencies() {
+        const text = suggestionText();
+        if (!text.trim()) {
+          showNote(
+            "suggestNote",
+            "Add the artifact name or a description first.",
+            true,
+          );
+          return;
+        }
+        const hits = rankCompetencies(text);
+        if (!hits.length) {
+          showNote(
+            "suggestNote",
+            "No matches. Add more detail on what you did, then try again.",
+            true,
+          );
+          return;
+        }
+        hits.forEach((hit) => {
+          const box = document.querySelector(
+            `input[name="competency"][value="${hit.code}"]`,
+          );
+          if (box) box.checked = true;
+        });
+        updateDraft();
+        showNote(
+          "suggestNote",
+          `Suggested from your text: ${hits
+            .map((hit) => `${nameOf(hit.code)} (${hit.words.join(", ")})`)
+            .join("; ")}. Untick anything you cannot prove.`,
+        );
+        showToast(
+          "AI can make mistakes. Check every suggestion before you save.",
+        );
+      }
+
+      async function copyForAgent() {
+        const point = $("point").value.trim();
+        if (!point) {
+          showFormError("Name the artifact first.");
+          return;
+        }
+        showFormError("");
+        const fields = readEvidenceFields();
+        const proof = [
+          ...state.links.map((link) => link.url),
+          state.images.length
+            ? `${state.images.length} screenshot(s) in the app`
+            : "",
+        ].filter(Boolean);
+        const block = [
+          `Title: ${point}`,
+          `Point: ${point}`,
+          `Level: ${state.level}`,
+          `Problem: ${fields.problem}`,
+          `Before: ${fields.before}`,
+          `After: ${fields.after}`,
+          `Consequence: ${fields.consequence}`,
+          `Method: ${fields.method}`,
+          `Proof: ${proof.join(", ")}`,
+          `Competencies ticked: ${getSelectedCodes().map(nameOf).join(", ")}`,
+          `Notes: ${htmlToText(getDescriptionHtml()).replace(/\s*\n\s*/g, " ")}`,
+        ].join("\n");
+        try {
+          await navigator.clipboard.writeText(block);
+          showToast(
+            "Copied. Paste it into Copilot Chat with the gap-artifact-polisher agent.",
+          );
+        } catch {
+          showToast("Copy failed. Allow clipboard access and try again.");
+        }
       }
 
       function setDraftEdited(edited) {
         state.draftEdited = edited;
-        $("resetDraftBtn").hidden = !edited;
       }
 
       function showFormError(message) {
         $("formError").textContent = message;
+      }
+
+      // Inline note for a field; errors are also shown as a red snackbar.
+      function showNote(id, message, isError = false) {
+        const note = $(id);
+        note.textContent = message;
+        note.classList.toggle("is-error", isError);
+        if (isError) showToast(message, true);
       }
 
       function addLink() {
@@ -2890,7 +3243,7 @@
         const mid = w / 2;
         const parts = steps.map((step, index) => {
           const y = pad + index * (boxH + gap);
-          const box = `<rect class="flow-node" x="${inset}" y="${y}" width="${w - inset * 2}" height="${boxH}" rx="8"><title>${esc(step)}</title></rect><text class="flow-text" x="${mid}" y="${y + boxH / 2 + 4}" text-anchor="middle">${esc(shorten(step, 44))}</text>`;
+          const box = `<g class="flow-step" tabindex="0" role="button" aria-pressed="false" data-full="${esc(step)}"><rect class="flow-node" x="${inset}" y="${y}" width="${w - inset * 2}" height="${boxH}" rx="8"><title>${esc(step)}</title></rect><text class="flow-text" x="${mid}" y="${y + boxH / 2 + 4}" text-anchor="middle">${esc(shorten(step, 44))}</text></g>`;
           if (index === steps.length - 1) return box;
           const top = y + boxH;
           const tip = top + gap;
@@ -2902,7 +3255,21 @@
       function flowHtml(steps) {
         const items = (steps || []).map(String);
         if (!items.length) return "";
-        return `<figure class="chart-box flow-box"><figcaption class="chart-title">Flow</figcaption>${flowSvg(items)}</figure>`;
+        return `<figure class="chart-box flow-box"><figcaption class="chart-title">Flow</figcaption>${flowSvg(items)}<p class="flow-caption" aria-live="polite"></p></figure>`;
+      }
+
+      function selectFlowStep(node) {
+        const figure = node.closest(".flow-box");
+        const steps = [...figure.querySelectorAll(".flow-step")];
+        const caption = figure.querySelector(".flow-caption");
+        const wasPressed = node.getAttribute("aria-pressed") === "true";
+        steps.forEach((step) => step.setAttribute("aria-pressed", "false"));
+        if (wasPressed) {
+          caption.textContent = "";
+          return;
+        }
+        node.setAttribute("aria-pressed", "true");
+        caption.textContent = `Step ${steps.indexOf(node) + 1} of ${steps.length}: ${node.dataset.full}`;
       }
 
       function renderFlowForm() {
@@ -3038,7 +3405,7 @@
 
       function renderCoverage() {
         const counts = Object.fromEntries(COMPETENCIES.map((c) => [c.code, 0]));
-        levelClaims().forEach((claim) =>
+        readyClaims().forEach((claim) =>
           claim.competencies.forEach((code) => {
             counts[code] = (counts[code] || 0) + 1;
           }),
@@ -3058,11 +3425,17 @@
           ? `Critical covered: ${criticalCovered} of ${critical.length}. Overall covered: ${totalCovered} of ${COMPETENCIES.length}.`
           : `No tier matrix for ${state.level} in the knowledge base. Overall covered: ${totalCovered} of ${COMPETENCIES.length}.`;
 
-        $("coverageGrid").innerHTML = COMPETENCIES.map((c) => {
-          const count = counts[c.code];
-          const tier = tierOf(c.code);
-          const isGap = tier === "critical" && count === 0;
-          return `
+        const tierRank = (code) => {
+          const index = TIERS.findIndex((t) => t.key === tierOf(code));
+          return index < 0 ? TIERS.length : index;
+        };
+        $("coverageGrid").innerHTML = [...COMPETENCIES]
+          .sort((a, b) => tierRank(a.code) - tierRank(b.code))
+          .map((c) => {
+            const count = counts[c.code];
+            const tier = tierOf(c.code);
+            const isGap = tier === "critical" && count === 0;
+            return `
         <div class="cov-tile${isGap ? " is-gap" : ""}${count > 0 ? " has-evidence" : ""}" style="${compVars(c.code)}">
           <p class="cov-name">${esc(c.name)}</p>
           <div class="cov-meta">
@@ -3070,31 +3443,9 @@
             <span>${count === 0 ? "No evidence yet" : `${count} claim${count === 1 ? "" : "s"}`}</span>
           </div>
         </div>`;
-        }).join("");
+          })
+          .join("");
       }
-
-      const CHART_COLORS = [
-        "#c6613f",
-        "#5e5d59",
-        "#d9a07f",
-        "#8c8a82",
-        "#ae5130",
-        "#3f3e3b",
-        "#e8c4b0",
-        "#b9b6aa",
-      ];
-      const CHART = {
-        w: 640,
-        h: 300,
-        left: 64,
-        right: 16,
-        top: 16,
-        bottom: 80,
-      };
-      const MAX_CSV_ROWS = 500;
-      const MAX_CSV_COLS = 12;
-      const MAX_CSV_BYTES = 512 * 1024;
-      const CHART_NAMES = { bar: "Bar", line: "Line", pie: "Pie" };
 
       function monthLabel(value) {
         if (!/^\d{4}-\d{2}$/.test(value || "")) return "";
@@ -3105,258 +3456,8 @@
         return `${month} ${y}`;
       }
 
-      function formatNumber(value) {
-        return Number(value).toLocaleString("en", { maximumFractionDigits: 2 });
-      }
-
-      function percent(value, total) {
-        return `${((value / total) * 100).toFixed(1)}%`;
-      }
-
       function shorten(text, max) {
         return text.length > max ? `${text.slice(0, max - 1)}…` : text;
-      }
-
-      function toNumber(value) {
-        const text = String(value).replace(/[,%\s]/g, "");
-        return text && Number.isFinite(Number(text)) ? Number(text) : NaN;
-      }
-
-      function parseCsv(text) {
-        const rows = [];
-        let row = [];
-        let cell = "";
-        let quoted = false;
-        for (let i = 0; i < text.length; i++) {
-          const ch = text[i];
-          if (quoted) {
-            if (ch === '"' && text[i + 1] === '"') {
-              cell += '"';
-              i++;
-            } else if (ch === '"') quoted = false;
-            else cell += ch;
-          } else if (ch === '"') quoted = true;
-          else if (ch === ",") {
-            row.push(cell.trim());
-            cell = "";
-          } else if (ch === "\n" || ch === "\r") {
-            if (ch === "\r" && text[i + 1] === "\n") i++;
-            row.push(cell.trim());
-            if (row.some(Boolean)) rows.push(row);
-            row = [];
-            cell = "";
-          } else cell += ch;
-        }
-        row.push(cell.trim());
-        if (row.some(Boolean)) rows.push(row);
-        return rows;
-      }
-
-      function numericColumns(dataset) {
-        return dataset.headers
-          .map((_, col) => col)
-          .slice(1)
-          .filter((col) => {
-            const cells = dataset.rows
-              .map((row) => row[col])
-              .filter((cell) => cell !== "");
-            return (
-              cells.length > 0 &&
-              cells.every((cell) => Number.isFinite(toNumber(cell)))
-            );
-          });
-      }
-
-      function csvToDataset(text, name) {
-        const table = parseCsv(text.replace(/^\uFEFF/, ""));
-        if (table.length < 2)
-          throw new Error(
-            "The CSV needs a header row and at least one data row.",
-          );
-        if (table.length - 1 > MAX_CSV_ROWS)
-          throw new Error(`Up to ${MAX_CSV_ROWS} data rows.`);
-        const headers = table[0]
-          .slice(0, MAX_CSV_COLS)
-          .map((header, i) => header || `Column ${i + 1}`);
-        const rows = table
-          .slice(1)
-          .map((row) => headers.map((_, i) => row[i] || ""));
-        const dataset = { name, headers, rows, valueCol: 1, chart: "bar" };
-        const numeric = numericColumns(dataset);
-        if (!numeric.length)
-          throw new Error("No numeric column found. Values need digits.");
-        dataset.valueCol = numeric[0];
-        return dataset;
-      }
-
-      function datasetCaption(dataset) {
-        return `${dataset.name} · ${dataset.headers[dataset.valueCol]}`;
-      }
-
-      function chartSeries(dataset) {
-        return dataset.rows
-          .map((row) => ({
-            label: row[0] || "(blank)",
-            value: toNumber(row[dataset.valueCol]),
-          }))
-          .filter((item) => Number.isFinite(item.value));
-      }
-
-      function cartesianSvg(series, draw) {
-        const values = series.map((item) => item.value);
-        const min = Math.min(0, ...values);
-        const max = Math.max(0, ...values);
-        const span = max - min || 1;
-        const height = CHART.h - CHART.top - CHART.bottom;
-        const width = CHART.w - CHART.left - CHART.right;
-        const geo = {
-          y: (value) => CHART.top + ((max - value) / span) * height,
-          x: (index) => CHART.left + ((index + 0.5) * width) / series.length,
-          slot: width / series.length,
-          bottom: CHART.top + height,
-        };
-        const grid = [0, 1, 2, 3, 4]
-          .map((step) => {
-            const value = min + (span * step) / 4;
-            return `<line class="chart-grid" x1="${CHART.left}" x2="${CHART.left + width}" y1="${geo.y(value)}" y2="${geo.y(value)}"/><text class="chart-axis" x="${CHART.left - 8}" y="${geo.y(value) + 4}" text-anchor="end">${esc(formatNumber(value))}</text>`;
-          })
-          .join("");
-        const every = Math.ceil(series.length / 20);
-        const labels = series
-          .map((item, index) => {
-            if (index % every) return "";
-            const x = geo.x(index);
-            const y = geo.bottom + 14;
-            return `<text class="chart-axis" x="${x}" y="${y}" text-anchor="end" transform="rotate(-35 ${x} ${y})">${esc(shorten(item.label, 16))}</text>`;
-          })
-          .join("");
-        return `<svg viewBox="0 0 ${CHART.w} ${CHART.h}" role="img" aria-label="Chart">${grid}${draw(geo, series)}${labels}</svg>`;
-      }
-
-      function barSvg(series) {
-        return cartesianSvg(series, (geo) => {
-          const base = geo.y(0);
-          return series
-            .map((item, index) => {
-              const top = geo.y(item.value);
-              const x = CHART.left + index * geo.slot + geo.slot * 0.18;
-              const height = Math.max(Math.abs(base - top), 1);
-              return `<rect x="${x}" y="${Math.min(top, base)}" width="${geo.slot * 0.64}" height="${height}" rx="2" fill="${CHART_COLORS[0]}"><title>${esc(item.label)}: ${esc(formatNumber(item.value))}</title></rect>`;
-            })
-            .join("");
-        });
-      }
-
-      function lineSvg(series) {
-        return cartesianSvg(series, (geo) => {
-          const points = series.map((item, index) => [
-            geo.x(index),
-            geo.y(item.value),
-          ]);
-          const dots = points
-            .map(
-              ([x, y], index) =>
-                `<circle cx="${x}" cy="${y}" r="3.5" fill="${CHART_COLORS[0]}"><title>${esc(series[index].label)}: ${esc(formatNumber(series[index].value))}</title></circle>`,
-            )
-            .join("");
-          const path = points.map((point) => point.join(",")).join(" ");
-          return `<polyline points="${path}" fill="none" stroke="${CHART_COLORS[0]}" stroke-width="2.5" stroke-linejoin="round"/>${dots}`;
-        });
-      }
-
-      function pieSvg(series) {
-        const slices = series.filter((item) => item.value > 0);
-        if (!slices.length)
-          return '<p class="hint">Pie charts need positive numbers.</p>';
-        const total = slices.reduce((sum, item) => sum + item.value, 0);
-        const cx = 130;
-        const cy = 150;
-        const r = 110;
-        let angle = -Math.PI / 2;
-        const drawn = slices
-          .map((item, index) => {
-            const color = CHART_COLORS[index % CHART_COLORS.length];
-            const title = `<title>${esc(item.label)}: ${esc(formatNumber(item.value))} (${percent(item.value, total)})</title>`;
-            if (slices.length === 1)
-              return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}">${title}</circle>`;
-            const sweep = (item.value / total) * Math.PI * 2;
-            const start = angle;
-            angle += sweep;
-            const x1 = cx + r * Math.cos(start);
-            const y1 = cy + r * Math.sin(start);
-            const x2 = cx + r * Math.cos(angle);
-            const y2 = cy + r * Math.sin(angle);
-            const large = sweep > Math.PI ? 1 : 0;
-            return `<path d="M${cx} ${cy} L${x1} ${y1} A${r} ${r} 0 ${large} 1 ${x2} ${y2} Z" fill="${color}">${title}</path>`;
-          })
-          .join("");
-        const legend = slices
-          .slice(0, 12)
-          .map((item, index) => {
-            const y = 36 + index * 22;
-            const text = `${shorten(item.label, 24)}: ${formatNumber(item.value)} (${percent(item.value, total)})`;
-            return `<rect x="290" y="${y - 10}" width="12" height="12" rx="2" fill="${CHART_COLORS[index % CHART_COLORS.length]}"/><text class="chart-legend" x="310" y="${y}">${esc(text)}</text>`;
-          })
-          .join("");
-        const more =
-          slices.length > 12
-            ? `<text class="chart-axis" x="310" y="${36 + 12 * 22}">+${slices.length - 12} more</text>`
-            : "";
-        return `<svg viewBox="0 0 ${CHART.w} ${CHART.h}" role="img" aria-label="Pie chart">${drawn}${legend}${more}</svg>`;
-      }
-
-      function chartSvg(dataset, type = dataset.chart) {
-        const series = chartSeries(dataset);
-        if (!series.length)
-          return '<p class="hint">No numbers in this column.</p>';
-        if (type === "pie") return pieSvg(series);
-        return type === "line" ? lineSvg(series) : barSvg(series);
-      }
-
-      function datasetHtml(claim) {
-        if (!claim.dataset) return "";
-        return `<figure class="chart-box"><figcaption class="chart-title">${esc(datasetCaption(claim.dataset))}</figcaption>${chartSvg(claim.dataset)}</figure>`;
-      }
-
-      function renderCsvForm() {
-        const data = state.dataset;
-        $("clearCsvBtn").hidden = !data;
-        $("csvConfig").hidden = !data;
-        $("csvPreview").hidden = !data;
-        if (!data) {
-          $("csvInfo").textContent =
-            "First row is the header and first column is the label. Up to 500 rows.";
-          $("csvPreview").innerHTML = "";
-          return;
-        }
-        $("csvInfo").textContent =
-          `${data.name}: ${data.rows.length} rows, ${data.headers.length} columns.`;
-        $("csvValueCol").innerHTML = numericColumns(data)
-          .map(
-            (col) =>
-              `<option value="${col}">${esc(data.headers[col])}</option>`,
-          )
-          .join("");
-        $("csvValueCol").value = String(data.valueCol);
-        $("csvChart").value = data.chart;
-        $("csvPreview").innerHTML =
-          `<figcaption class="chart-title">${esc(datasetCaption(data))}</figcaption>${chartSvg(data)}`;
-      }
-
-      async function addCsvFile(file) {
-        if (!file) return;
-        showFormError("");
-        if (file.size > MAX_CSV_BYTES) {
-          showFormError("The CSV is larger than 512 KB.");
-          return;
-        }
-        try {
-          state.dataset = csvToDataset(await file.text(), file.name);
-        } catch (error) {
-          showFormError(error.message);
-          return;
-        }
-        renderCsvForm();
       }
 
       const PROOF_STATUS = {
@@ -3375,8 +3476,7 @@
       // Heuristic quality checks. Warnings only; saving is never blocked.
       function claimIssues(claim) {
         const issues = [];
-        const hasProof =
-          claim.links.length || (claim.images || []).length || claim.dataset;
+        const hasProof = claim.links.length || (claim.images || []).length;
         if (!hasProof) issues.push("No proof");
         if (claim.proofStatus === "needs-proof") issues.push("Needs proof");
         if (!claim.before && !claim.after) {
@@ -3443,9 +3543,10 @@
             const expanded = state.expandedClaims.has(claim.id);
             return `
       <article class="claim" data-claim-id="${esc(claim.id)}">
-        <p class="claim-text">${esc(claim.claim)}</p>
-        <p class="claim-source">Artifact: ${esc(claim.point)}</p>
+        <p class="claim-text">${esc(claim.point)}</p>
         <div class="tag-row">
+          ${isDraft(claim) ? '<span class="comp-tag draft-tag">Draft: not in coverage or exports</span>' : ""}
+          ${isDraft(claim) && !claim.competencies.length ? '<span class="comp-tag warn-tag">No competencies</span>' : ""}
           ${claim.competencies.map((code) => `<span class="comp-tag" style="${compVars(code)}"><i class="dot"></i>${esc(nameOf(code))}</span>`).join("")}
           ${claim.selectedForPack ? '<span class="comp-tag pack-tag">In pack</span>' : ""}
           ${PROOF_STATUS[claim.proofStatus] ? `<span class="comp-tag">${esc(PROOF_STATUS[claim.proofStatus])}</span>` : ""}
@@ -3457,15 +3558,14 @@
         </div>
         ${impactListHtml(claim)}
         ${claimImagesHtml(claim)}
-        ${datasetHtml(claim)}
         ${flowHtml(claim.flow)}
         ${
-          claim.description
+          claim.claim || claim.description
             ? `
           <button type="button" class="btn btn-ghost btn-small claim-toggle" data-toggle-claim="${esc(claim.id)}" aria-expanded="${expanded}">
             ${expanded ? "Hide description" : "Show description"}
           </button>
-          <div class="claim-description" ${expanded ? "" : "hidden"}>${sanitizeHtml(claim.description)}</div>`
+          <div class="claim-description" ${expanded ? "" : "hidden"}>${claim.claim ? `<dl class="impact-list"><dt>Claim story</dt><dd>${esc(claim.claim)}</dd></dl>` : ""}${claim.description ? sanitizeHtml(claim.description) : ""}</div>`
             : ""
         }
         ${claim.links.length ? `<div class="link-list">${claim.links.map(renderLinkAnchor).join("")}</div>` : ""}
@@ -3494,12 +3594,15 @@
         $("draft").value = "";
         fillEvidenceFields();
         showFormError("");
+        showNote(
+          "suggestNote",
+          "Select every competency this artifact touches.",
+        );
+        showNote("draftNote", "");
         setDraftEdited(false);
         setEditing(null);
         renderLinks();
         renderImages();
-        state.dataset = null;
-        renderCsvForm();
         state.flow = [];
         $("flowInput").value = "";
         renderFlowForm();
@@ -3511,18 +3614,24 @@
         $("saveBtn").textContent = id ? "Update artifact" : "Save artifact";
       }
 
-      async function saveClaim() {
+      async function saveClaim(asDraft = false) {
         if ($("linkInput").value.trim()) addLink();
         // Link text without a URL is dropped.
 
         const point = $("point").value.trim();
+        const problem = $("problem").value.trim();
         const description = getDescriptionHtml();
         const codes = getSelectedCodes();
-        const draft = $("draft").value.trim();
+        const draft =
+          $("draft").value.trim() ||
+          (asDraft && point ? buildStory(storyInputFromForm()) : "");
         const errors = [];
         if (!point) errors.push("Name the artifact.");
-        if (!codes.length) errors.push("Tag at least one competency.");
-        if (!draft) errors.push("The one-liner claim cannot be empty.");
+        if (!problem) errors.push("Describe the problem it solved.");
+        if (!htmlToText(description).trim()) errors.push("Add a description.");
+        if (!asDraft && !codes.length)
+          errors.push("Tag at least one competency.");
+        if (!asDraft && !draft) errors.push("The claim story cannot be empty.");
         showFormError(errors.join(" "));
         if (errors.length) return;
 
@@ -3534,9 +3643,9 @@
           claim: draft,
           links: [...state.links],
           images: [...state.images],
-          dataset: state.dataset ? { ...state.dataset } : null,
           flow: [...state.flow],
           ...readEvidenceFields(),
+          status: asDraft ? "draft" : "ready",
           level: state.level,
           createdAt: new Date().toISOString(),
         };
@@ -3571,17 +3680,22 @@
         fillEvidenceFields(claim);
         state.links = claim.links.map(asLink);
         state.images = [...(claim.images || [])];
-        state.dataset = claim.dataset ? { ...claim.dataset } : null;
         state.flow = (claim.flow || []).map(String);
         $("linkInput").value = "";
         $("linkLabel").value = "";
         $("draft").value = claim.claim;
         showFormError("");
-        setDraftEdited(claim.claim !== buildOneLiner(claim.point));
+        setDraftEdited(
+          claim.claim !==
+            buildStory({
+              point: claim.point,
+              consequence: claim.consequence,
+              competencies: claim.competencies,
+            }),
+        );
         setEditing(id);
         renderLinks();
         renderImages();
-        renderCsvForm();
         renderFlowForm();
         $("formTitle").scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -3635,7 +3749,7 @@
       }
 
       function packClaims() {
-        const all = levelClaims();
+        const all = readyClaims();
         const picked = all.filter((claim) => claim.selectedForPack);
         return picked.length ? picked : all;
       }
@@ -3651,8 +3765,8 @@
             .map((claim) => {
               const tags = claim.competencies.map(nameOf).join(", ");
               const lines = [
-                `- ${claim.claim}`,
-                `  - Artifact: ${claim.point}`,
+                `- ${claim.point}`,
+                ...(claim.claim ? [`  - Claim story: ${claim.claim}`] : []),
                 `  - Competencies touched: ${tags}`,
               ];
               const text = htmlToText(claim.description || "");
@@ -3682,7 +3796,7 @@
 
       async function copyMarkdown() {
         const button = $("copyBtn");
-        if (!levelClaims().length) return;
+        if (!readyClaims().length) return;
         try {
           await navigator.clipboard.writeText(claimsAsMarkdown());
           button.textContent = "Copied";
@@ -4155,7 +4269,7 @@
             const pageW = 24;
             put(String(i + 1).padStart(2, "0"), left, y, 9, "F2", C.primary);
             put(
-              fit(claim.claim, 10, "F1", width - 30 - dotsW - pageW - 12),
+              fit(claim.point, 10, "F1", width - 30 - dotsW - pageW - 12),
               left + 28,
               y,
               10,
@@ -4205,11 +4319,14 @@
               C.primary,
               6,
             );
-            write(claim.claim, { size: 16, font: "F3", lh: 1.28, gap: 12 });
+            write(claim.point, { size: 16, font: "F3", lh: 1.28, gap: 12 });
             chips(
               claim.competencies.map((code) => ({ label: nameOf(code), code })),
             );
-            const rows = impactRows(claim);
+            const rows = [
+              ...(claim.claim ? [["Claim story", claim.claim]] : []),
+              ...impactRows(claim),
+            ];
             if (rows.length) {
               divider();
               sectionHead("Impact");
@@ -4446,7 +4563,7 @@
           const next =
             i < outlineIds.length - 1 ? ` /Next ${outlineIds[i + 1]} 0 R` : "";
           push(
-            `<< /Title ${pdfLiteral(fit(claim.claim, 10, "F1", 360))} /Parent ${outlineRootId} 0 R${prev}${next} /Dest ${destOf({ claimIndex: i })} >>\nendobj\n`,
+            `<< /Title ${pdfLiteral(fit(claim.point, 10, "F1", 360))} /Parent ${outlineRootId} 0 R${prev}${next} /Dest ${destOf({ claimIndex: i })} >>\nendobj\n`,
           );
         });
         const xrefAt = position;
@@ -4562,7 +4679,12 @@
           const list = Array.isArray(data) ? data : data.claims;
           if (!Array.isArray(list))
             throw new Error('the file has no "claims" list.');
-          claims = list;
+          // Drafts written by the agent may omit empty lists.
+          claims = list.map((claim) => ({
+            ...claim,
+            competencies: claim.competencies || [],
+            links: claim.links || [],
+          }));
           if (!Array.isArray(data)) {
             const {
               claims: _claims,
@@ -4743,9 +4865,10 @@
       }
 
       let toastTimer;
-      function showToast(message) {
+      function showToast(message, isError = false) {
         const toast = $("toast");
         toast.textContent = message;
+        toast.classList.toggle("is-error", isError);
         toast.classList.add("is-visible");
         clearTimeout(toastTimer);
         toastTimer = setTimeout(
@@ -5015,7 +5138,7 @@
         return `<article class="summary-item">
           <p class="summary-num">${String(index + 1).padStart(2, "0")}</p>
           <div>
-            <h3>${esc(claim.claim)}</h3>
+            <h3>${esc(claim.point)}</h3>
             <p class="summary-metric"><strong>Metric:</strong> ${esc(metric)}</p>
             ${link}
             <dl class="impact-list">
@@ -5065,14 +5188,14 @@
         );
 
         $("point").addEventListener("input", updateDraft);
+        $("problem").addEventListener("input", updateDraft);
+        $("consequence").addEventListener("input", updateDraft);
+        $("description").addEventListener("input", updateDraft);
 
         $("competencyPicker").addEventListener("change", updateDraft);
 
         $("draft").addEventListener("input", () => setDraftEdited(true));
-        $("resetDraftBtn").addEventListener("click", () => {
-          setDraftEdited(false);
-          updateDraft();
-        });
+        $("resetDraftBtn").addEventListener("click", regenerateStory);
 
         $("addLinkBtn").addEventListener("click", addLink);
 
@@ -5192,26 +5315,20 @@
           addFlowStep();
         });
 
-        $("addCsvBtn").addEventListener("click", () => $("csvInput").click());
-        $("csvInput").addEventListener("change", async (event) => {
-          await addCsvFile(event.target.files[0]);
-          event.target.value = "";
+        document.addEventListener("click", (event) => {
+          const step = event.target.closest(".flow-step");
+          if (step) selectFlowStep(step);
         });
-        $("clearCsvBtn").addEventListener("click", () => {
-          state.dataset = null;
-          renderCsvForm();
+        document.addEventListener("keydown", (event) => {
+          const step = event.target.closest(".flow-step");
+          if (!step || (event.key !== "Enter" && event.key !== " ")) return;
+          event.preventDefault();
+          selectFlowStep(step);
         });
-        $("csvValueCol").addEventListener("change", (event) => {
-          if (!state.dataset) return;
-          state.dataset.valueCol = Number(event.target.value);
-          renderCsvForm();
-        });
-        $("csvChart").addEventListener("change", (event) => {
-          if (!state.dataset) return;
-          state.dataset.chart = event.target.value;
-          renderCsvForm();
-        });
-        $("saveBtn").addEventListener("click", saveClaim);
+        $("saveBtn").addEventListener("click", () => saveClaim(false));
+        $("draftBtn").addEventListener("click", () => saveClaim(true));
+        $("suggestBtn").addEventListener("click", suggestCompetencies);
+        $("agentBtn").addEventListener("click", copyForAgent);
         $("clearBtn").addEventListener("click", resetForm);
         $("copyBtn").addEventListener("click", copyMarkdown);
         $("pdfBtn").addEventListener("click", exportPdf);
